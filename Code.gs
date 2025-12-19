@@ -615,3 +615,100 @@ function adminAjouterFeuille(idSpreadsheet, titre, niveauAcces = 'Editeur') {
 function initialiserDonnees() {
   adminAjouterFeuille('ID_DE_VOTRE_SHEET_ICI', 'Nom du fichier', 'Editeur');
 }
+
+/**
+ * ==================================================================================
+ * GESTION DES DÉCLENCHEURS (TRIGGERS)
+ * ==================================================================================
+ */
+
+/**
+ * Installe programmatiquement le déclencheur de nettoyage nocturne.
+ * À exécuter UNE SEULE FOIS manuellement depuis l'éditeur.
+ * * Best Practice : Cette fonction vérifie si le trigger existe déjà pour éviter les doublons.
+ */
+const installerDeclencheurNettoyage = () => {
+  try {
+    const nomFonction = 'nettoyageMinuit';
+    
+    // 1. Vérification des déclencheurs existants pour éviter les doublons
+    const declencheursExistants = ScriptApp.getProjectTriggers();
+    const existeDeja = declencheursExistants.some(trigger => trigger.getHandlerFunction() === nomFonction);
+
+    if (existeDeja) {
+      console.warn(`⚠️ Le déclencheur pour "${nomFonction}" existe déjà. Installation annulée.`);
+      return;
+    }
+
+    // 2. Création du déclencheur (Chaque jour entre minuit et 1h du matin)
+    ScriptApp.newTrigger(nomFonction)
+      .timeBased()
+      .atHour(0)              // Heure : Minuit
+      .everyDays(1)           // Fréquence : Quotidienne
+      .inTimezone(Session.getScriptTimeZone()) // Fuseau horaire du script
+      .create();
+
+    console.log(`✅ Succès : Le nettoyage automatique est programmé chaque jour entre 00h00 et 01h00.`);
+
+  } catch (erreur) {
+    console.error(`❌ Erreur lors de l'installation du déclencheur : ${erreur.toString()}`);
+  }
+};
+
+/**
+ * Fonction exécutée automatiquement par le déclencheur.
+ * Révoque tous les accès et vide les sessions.
+ */
+const nettoyageMinuit = () => {
+  console.log('🌙 Début du nettoyage de minuit...');
+  
+  // Utilisation d'un verrou pour s'assurer que le nettoyage est atomique
+  avecVerrou('nettoyage_nocturne', () => {
+    const props = PropertiesService.getScriptProperties();
+    
+    // 1. Réinitialisation des sessions
+    props.setProperty('SESSIONS_ACTIVES', '{}');
+
+    // 2. Récupération et nettoyage des feuilles
+    const feuilles = recupererToutesFeuilles(); // Assurez-vous que cette fonction existe dans votre code principal
+    let modificationsEffectuees = false;
+
+    Object.keys(feuilles).forEach(cle => {
+      const feuille = feuilles[cle];
+      
+      // Si la feuille est marquée comme empruntée
+      if (feuille.utilisateurActuel) {
+        try {
+          const ss = SpreadsheetApp.openById(feuille.idFeuille);
+          
+          // Suppression des droits
+          ss.removeEditor(feuille.utilisateurActuel);
+          ss.removeViewer(feuille.utilisateurActuel);
+          
+          console.log(`♻️ Accès retiré pour ${feuille.utilisateurActuel} sur "${feuille.titre}"`);
+          
+          // Mise à jour des métadonnées
+          feuille.utilisateurActuel = '';
+          feuille.heureEmprunt = null;
+          modificationsEffectuees = true;
+          
+        } catch (erreur) {
+          console.error(`⚠️ Erreur nettoyage feuille "${feuille.titre}" (ID: ${feuille.idFeuille}): ${erreur.message}`);
+          // On continue la boucle même en cas d'erreur sur une feuille
+        }
+      }
+    });
+    
+    // 3. Sauvegarde si nécessaire
+    if (modificationsEffectuees) {
+      sauvegarderFeuilles(feuilles); // Assurez-vous que cette fonction existe
+    }
+    
+    // 4. Trace dans le journal
+    journaliserActivite(
+      TYPES_EVENEMENT.NETTOYAGE_SYSTEME, 
+      'Système', 
+      'Réinitialisation nocturne effectuée avec succès'
+    );
+  });
+};
