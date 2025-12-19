@@ -3,19 +3,20 @@
  * GESTIONNAIRE D'ACCÈS GOOGLE SHEETS
  * Auteur : Fabrice Faucheux
  * Date : 19/12/2025
+ * Version : 1.1 (Nettoyé et Optimisé)
  * ==================================================================================
  */
 
 // ==================================================================================
-// CONFIGURATION - À PERSONNALISER
+// 1. CONFIGURATION & CONSTANTES
 // ==================================================================================
 
 /**
  * EMAIL DU SUPER ADMINISTRATEUR
  * Ce compte ne peut être ni modifié ni supprimé par d'autres administrateurs.
- * Remplacez par votre adresse email.
+ * Remplacer par votre adresse email réelle.
  */
-const EMAIL_SUPER_ADMIN = 'votre-email@gmail.com'; 
+const EMAIL_SUPER_ADMIN = 'votre-email@gmail.com';
 
 /**
  * EMAIL DE CONTACT ADMINISTRATEUR
@@ -35,39 +36,6 @@ const NOM_SYSTEME = 'Gestionnaire d\'Accès Google Sheets';
  */
 const MAX_ENTREES_JOURNAL = 300;
 
-
-// ==================================================================================
-// POINT D'ENTRÉE WEB APP
-// ==================================================================================
-
-/**
- * Fonction appelée lors de la visite de l'URL de la Web App.
- * Sert le fichier HTML principal.
- * @return {HtmlOutput} L'interface utilisateur.
- */
-const doGet = () => {
-  return HtmlService.createHtmlOutputFromFile('index')
-    .setTitle(NOM_SYSTEME)
-    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
-};
-
-/**
- * Récupère le contenu de la documentation HTML.
- * @return {string} Le contenu HTML.
- */
-const recupererHtmlDocumentation = () => {
-  try {
-    return HtmlService.createHtmlOutputFromFile('documentation').getContent();
-  } catch (erreur) {
-    console.error(`Erreur chargement doc: ${erreur}`);
-    throw new Error('Impossible de charger la documentation.');
-  }
-};
-
-// ==================================================================================
-// CONSTANTES D'ÉVÉNEMENTS
-// ==================================================================================
-
 const TYPES_EVENEMENT = {
   UTILISATEUR_INSCRIT: 'UTILISATEUR_INSCRIT',
   UTILISATEUR_APPROUVE: 'UTILISATEUR_APPROUVE',
@@ -85,7 +53,36 @@ const TYPES_EVENEMENT = {
 };
 
 // ==================================================================================
-// UTILITAIRES & SÉCURITÉ
+// 2. POINT D'ENTRÉE WEB APP
+// ==================================================================================
+
+/**
+ * Fonction appelée lors de la visite de l'URL de la Web App.
+ * Sert le fichier HTML principal.
+ * @return {HtmlOutput} L'interface utilisateur.
+ */
+const doGet = () => {
+  return HtmlService.createHtmlOutputFromFile('index')
+    .setTitle(NOM_SYSTEME)
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1');
+};
+
+/**
+ * Récupère le contenu de la documentation HTML.
+ * @return {string} Le contenu HTML.
+ */
+const recupererHtmlDocumentation = () => {
+  try {
+    return HtmlService.createHtmlOutputFromFile('documentation').getContent();
+  } catch (erreur) {
+    console.error(`Erreur chargement doc: ${erreur}`);
+    throw new Error('Impossible de charger la documentation.');
+  }
+};
+
+// ==================================================================================
+// 3. UTILITAIRES & SÉCURITÉ
 // ==================================================================================
 
 /**
@@ -114,7 +111,7 @@ const nettoyerEntree = (entree, longueurMax = null) => {
 };
 
 /**
- * Wrapper pour gérer les verrous (concurrence).
+ * Wrapper pour gérer les verrous (concurrence) afin d'éviter les conflits d'écriture.
  * @param {string} nomVerrou - Identifiant du verrou.
  * @param {Function} fonctionRappel - La fonction à exécuter.
  */
@@ -156,11 +153,11 @@ const verifierMotDePasse = (motDePasse, hashStocke) => hacherMotDePasse(motDePas
 const genererJetonSession = () => Utilities.getUuid();
 
 // ==================================================================================
-// GESTION DES DONNÉES (PROPERTIES SERVICE)
+// 4. GESTION DES DONNÉES (PERSISTENCE)
 // ==================================================================================
 
 /**
- * Récupère tous les utilisateurs.
+ * Récupère tous les utilisateurs depuis PropertiesService.
  * @return {Object} Objet contenant les utilisateurs.
  */
 const recupererTousUtilisateurs = () => {
@@ -170,7 +167,7 @@ const recupererTousUtilisateurs = () => {
 };
 
 /**
- * Sauvegarde les utilisateurs.
+ * Sauvegarde les utilisateurs de manière atomique.
  * @param {Object} utilisateurs - Objet complet des utilisateurs.
  */
 const sauvegarderUtilisateurs = (utilisateurs) => {
@@ -191,7 +188,7 @@ const recupererToutesFeuilles = () => {
 };
 
 /**
- * Sauvegarde les feuilles de calcul.
+ * Sauvegarde les feuilles de calcul de manière atomique.
  * @param {Object} feuilles - Objet complet des feuilles.
  */
 const sauvegarderFeuilles = (feuilles) => {
@@ -202,11 +199,11 @@ const sauvegarderFeuilles = (feuilles) => {
 };
 
 // ==================================================================================
-// AUTHENTIFICATION & SESSION
+// 5. AUTHENTIFICATION & SESSION
 // ==================================================================================
 
 /**
- * Connecte un utilisateur.
+ * Connecte un utilisateur et crée une session.
  * @param {string} email 
  * @param {string} motDePasse 
  */
@@ -269,14 +266,14 @@ const connecterUtilisateur = (email, motDePasse) => {
  */
 const verifierJetonSession = (jetonSession) => {
   if (!jetonSession) return { valide: false, message: 'Aucun jeton fourni' };
-
+  
   const props = PropertiesService.getScriptProperties();
   const jsonSessions = props.getProperty('SESSIONS_ACTIVES') || '{}';
   const sessions = JSON.parse(jsonSessions);
   const session = sessions[jetonSession];
-
+  
   if (!session) return { valide: false, message: 'Session expirée ou invalide' };
-
+  
   return {
     valide: true,
     idUtilisateur: session.idUtilisateur,
@@ -286,11 +283,11 @@ const verifierJetonSession = (jetonSession) => {
 };
 
 /**
- * Déconnecte l'utilisateur et libère ses ressources.
+ * Déconnecte l'utilisateur et libère ses ressources (feuilles empruntées).
  */
 const deconnecterUtilisateur = (jetonSession) => {
   if (!jetonSession) return { succes: false, message: 'Aucun jeton' };
-
+  
   return avecVerrou('deconnexion', () => {
     const props = PropertiesService.getScriptProperties();
     const jsonSessions = props.getProperty('SESSIONS_ACTIVES') || '{}';
@@ -303,7 +300,7 @@ const deconnecterUtilisateur = (jetonSession) => {
     delete sessions[jetonSession];
     props.setProperty('SESSIONS_ACTIVES', JSON.stringify(sessions));
 
-    // Libérer les feuilles empruntées
+    // Libérer les feuilles empruntées lors de la déconnexion
     libererFeuillesUtilisateur(emailUtilisateur);
 
     journaliserActivite(TYPES_EVENEMENT.DECONNEXION, emailUtilisateur, 'Déconnexion utilisateur');
@@ -311,19 +308,85 @@ const deconnecterUtilisateur = (jetonSession) => {
   });
 };
 
+/**
+ * Enregistre un nouvel utilisateur.
+ */
+const inscrireNouvelUtilisateur = (email, motDePasse, nomComplet) => {
+  const emailNorm = normaliserEmail(nettoyerEntree(email, 100));
+  const nom = nettoyerEntree(nomComplet, 100);
+  const mdp = nettoyerEntree(motDePasse, 100);
+
+  if (!emailNorm || !mdp || !nom) return { succes: false, message: 'Champs manquants.' };
+  if (!emailNorm.endsWith('@gmail.com')) return { succes: false, message: 'Compte Gmail requis.' };
+  
+  return avecVerrou('inscription', () => {
+    const utilisateurs = recupererTousUtilisateurs();
+    const cleUser = `user_${emailNorm}`;
+
+    if (utilisateurs[cleUser]) return { succes: false, message: 'Compte déjà existant.' };
+
+    utilisateurs[cleUser] = {
+      idUtilisateur: emailNorm,
+      nomComplet: nom,
+      hashMdp: hacherMotDePasse(mdp),
+      approbationInscription: 'en_attente', // Statut par défaut
+      typeUtilisateur: 'Utilisateur',
+      dateInscription: new Date().toISOString(),
+      feuillesAssignees: []
+    };
+
+    sauvegarderUtilisateurs(utilisateurs);
+    journaliserActivite(TYPES_EVENEMENT.UTILISATEUR_INSCRIT, emailNorm, `Nouvelle inscription: ${nom}`);
+
+    // Notification Email à l'admin (optionnel)
+    try {
+      MailApp.sendEmail({
+        to: EMAIL_CONTACT_ADMIN,
+        subject: `${NOM_SYSTEME} - Nouvelle inscription`,
+        body: `Nouvel utilisateur en attente : ${nom} (${emailNorm}).`
+      });
+    } catch(e) {
+      console.warn("Impossible d'envoyer l'email de notif: " + e.message);
+    }
+
+    return { succes: true, message: 'Inscription réussie ! En attente de validation.' };
+  });
+};
+
 // ==================================================================================
-// GESTION DES FEUILLES DE CALCUL
+// 6. GESTION DES FEUILLES DE CALCUL
 // ==================================================================================
 
 /**
- * Demande d'accès à une feuille.
+ * Récupère les feuilles disponibles pour l'interface utilisateur.
+ * (Fonction précédemment manquante, maintenant intégrée).
+ */
+const recupererFeuillesDisponibles = (jetonSession) => {
+  const session = verifierJetonSession(jetonSession);
+  if (!session.valide) return { succes: false, message: 'Session invalide' };
+
+  const feuilles = recupererToutesFeuilles();
+  
+  // Transformation de l'objet de stockage en tableau pour le frontend
+  const listeFeuilles = Object.values(feuilles).map(f => ({
+    id: f.idFeuille,
+    nom: f.titre,
+    inUse: !!f.utilisateurActuel, // Vrai si quelqu'un l'utilise
+    groupe: f.groupe
+  }));
+  
+  return { succes: true, feuilles: listeFeuilles };
+};
+
+/**
+ * Demande d'accès ("Emprunt") à une feuille.
  */
 const demanderAccesFeuille = (idFeuille, jetonSession) => {
   const session = verifierJetonSession(jetonSession);
   if (!session.valide) return { succes: false, message: 'Session invalide' };
 
   const emailUtilisateur = session.idUtilisateur;
-
+  
   return avecVerrou('acces_feuille', () => {
     const feuilles = recupererToutesFeuilles();
     const cleFeuille = `feuille_${idFeuille}`;
@@ -331,7 +394,7 @@ const demanderAccesFeuille = (idFeuille, jetonSession) => {
 
     if (!feuille) return { succes: false, message: 'Feuille introuvable.' };
     
-    // Vérifier si déjà utilisée
+    // Vérifier si déjà utilisée par quelqu'un d'autre
     if (feuille.utilisateurActuel && feuille.utilisateurActuel !== emailUtilisateur) {
       return { 
         succes: false, 
@@ -339,7 +402,7 @@ const demanderAccesFeuille = (idFeuille, jetonSession) => {
       };
     }
 
-    // Si déjà assigné
+    // Si déjà assigné à soi-même
     if (feuille.utilisateurActuel === emailUtilisateur) {
       return {
         succes: true,
@@ -349,11 +412,9 @@ const demanderAccesFeuille = (idFeuille, jetonSession) => {
       };
     }
 
-    // Vérification des droits d'assignation (simplifié ici : on suppose que si l'utilisateur voit la liste, il a le droit)
-    // Dans une version plus complexe, vérifiez `utilisateur.feuillesAssignees`.
-
     try {
       const ss = SpreadsheetApp.openById(idFeuille);
+      
       if (feuille.acces === 'Editeur') {
         ss.addEditor(emailUtilisateur);
       } else {
@@ -365,7 +426,7 @@ const demanderAccesFeuille = (idFeuille, jetonSession) => {
       sauvegarderFeuilles(feuilles);
 
       journaliserActivite(TYPES_EVENEMENT.FEUILLE_EMPRUNTEE, emailUtilisateur, `Accès accordé: ${feuille.titre}`);
-
+      
       return {
         succes: true,
         message: 'Accès accordé ! Ouverture...',
@@ -381,7 +442,8 @@ const demanderAccesFeuille = (idFeuille, jetonSession) => {
 };
 
 /**
- * Libère toutes les feuilles d'un utilisateur (Interne).
+ * Libère toutes les feuilles d'un utilisateur (Usage interne).
+ * Retire les permissions Editor/Viewer sur les fichiers réels.
  */
 const libererFeuillesUtilisateur = (emailUtilisateur) => {
   const feuilles = recupererToutesFeuilles();
@@ -400,6 +462,7 @@ const libererFeuillesUtilisateur = (emailUtilisateur) => {
         modifie = true;
       } catch (e) {
         console.warn(`Erreur retrait droits pour ${feuille.titre}: ${e}`);
+        // On continue même en cas d'erreur
       }
     }
   });
@@ -408,7 +471,7 @@ const libererFeuillesUtilisateur = (emailUtilisateur) => {
 };
 
 // ==================================================================================
-// FONCTIONS ADMINISTRATEUR
+// 7. FONCTIONS ADMINISTRATEUR
 // ==================================================================================
 
 /**
@@ -422,7 +485,7 @@ const recupererDonneesTableauBord = (jetonSession) => {
 
   const utilisateurs = recupererTousUtilisateurs();
   const feuilles = recupererToutesFeuilles();
-
+  
   // Formatage pour le frontend
   const listeUtilisateurs = Object.values(utilisateurs).map(u => ({
     email: u.idUtilisateur,
@@ -430,7 +493,7 @@ const recupererDonneesTableauBord = (jetonSession) => {
     type: u.typeUtilisateur,
     dateInscription: u.dateInscription
   }));
-
+  
   const listeFeuilles = Object.values(feuilles).map(f => ({
     id: f.idFeuille,
     nom: f.titre,
@@ -444,7 +507,7 @@ const recupererDonneesTableauBord = (jetonSession) => {
     utilisateurs: listeUtilisateurs,
     feuilles: listeFeuilles,
     stockage: {
-      // Simulation de données de stockage pour l'exemple
+      // Simulation, à affiner selon les besoins
       pourcentageUtilise: 15, 
       utilisateursActuels: listeUtilisateurs.length
     }
@@ -452,54 +515,42 @@ const recupererDonneesTableauBord = (jetonSession) => {
 };
 
 /**
- * Enregistre un nouvel utilisateur.
+ * Utilitaire Admin pour ajouter manuellement une feuille au système (Setup).
+ * À lancer manuellement depuis l'éditeur.
  */
-const inscrireNouvelUtilisateur = (email, motDePasse, nomComplet) => {
-  const emailNorm = normaliserEmail(nettoyerEntree(email, 100));
-  const nom = nettoyerEntree(nomComplet, 100);
-  const mdp = nettoyerEntree(motDePasse, 100);
+const adminAjouterFeuille = (idSpreadsheet, titre, niveauAcces = 'Editeur') => {
+  const feuilles = recupererToutesFeuilles();
+  const cle = `feuille_${idSpreadsheet}`;
+  
+  feuilles[cle] = {
+    idFeuille: idSpreadsheet,
+    titre: titre,
+    acces: niveauAcces,
+    groupe: 1,
+    utilisateurActuel: '',
+    heureEmprunt: null
+  };
+  
+  sauvegarderFeuilles(feuilles);
+  console.log(`Feuille "${titre}" ajoutée avec succès au système.`);
+};
 
-  if (!emailNorm || !mdp || !nom) return { succes: false, message: 'Champs manquants.' };
-  if (!emailNorm.endsWith('@gmail.com')) return { succes: false, message: 'Compte Gmail requis.' };
-
-  return avecVerrou('inscription', () => {
-    const utilisateurs = recupererTousUtilisateurs();
-    const cleUser = `user_${emailNorm}`;
-
-    if (utilisateurs[cleUser]) return { succes: false, message: 'Compte déjà existant.' };
-
-    utilisateurs[cleUser] = {
-      idUtilisateur: emailNorm,
-      nomComplet: nom,
-      hashMdp: hacherMotDePasse(mdp),
-      approbationInscription: 'en_attente',
-      typeUtilisateur: 'Utilisateur', // Par défaut
-      dateInscription: new Date().toISOString(),
-      feuillesAssignees: []
-    };
-
-    sauvegarderUtilisateurs(utilisateurs);
-    journaliserActivite(TYPES_EVENEMENT.UTILISATEUR_INSCRIT, emailNorm, `Nouvelle inscription: ${nom}`);
-
-    // Notification Email à l'admin (optionnel)
-    try {
-      MailApp.sendEmail({
-        to: EMAIL_CONTACT_ADMIN,
-        subject: `${NOM_SYSTEME} - Nouvelle inscription`,
-        body: `Nouvel utilisateur en attente : ${nom} (${emailNorm}).`
-      });
-    } catch(e) {}
-
-    return { succes: true, message: 'Inscription réussie ! En attente de validation.' };
-  });
+/**
+ * Fonction exemple pour initialiser la première feuille.
+ */
+const initialiserDonnees = () => {
+  // Remplacer par un vrai ID de Google Sheet
+  adminAjouterFeuille('VOTRE_ID_SPREADSHEET_ICI', 'Fichier Test', 'Editeur');
 };
 
 // ==================================================================================
-// JOURNALISATION
+// 8. JOURNALISATION
 // ==================================================================================
 
+/**
+ * Ajoute une entrée au journal d'activité.
+ */
 const journaliserActivite = (typeEvenement, emailUtilisateur, details, donneesSup = null) => {
-  // Utilisation de Lock pour éviter les conflits d'écriture dans les logs
   avecVerrou('journal', () => {
     const props = PropertiesService.getScriptProperties();
     const jsonJournal = props.getProperty('JOURNAL_ACTIVITE') || '[]';
@@ -521,117 +572,19 @@ const journaliserActivite = (typeEvenement, emailUtilisateur, details, donneesSu
   });
 };
 
-const recupererJournalActivite = (limite = 50) => {
-  const props = PropertiesService.getScriptProperties();
-  const journal = JSON.parse(props.getProperty('JOURNAL_ACTIVITE') || '[]');
-  return journal.slice(0, limite);
-};
-
 // ==================================================================================
-// TÂCHES AUTOMATISÉES (TRIGGERS)
+// 9. TÂCHES AUTOMATISÉES (TRIGGERS)
 // ==================================================================================
-
-/**
- * Nettoyage de minuit : Force la déconnexion et le retour des feuilles.
- * À configurer dans les déclencheurs du projet.
- */
-const nettoyageMinuit = () => {
-  console.log('Début du nettoyage de minuit...');
-  const props = PropertiesService.getScriptProperties();
-  
-  // 1. Vider les sessions
-  props.setProperty('SESSIONS_ACTIVES', '{}');
-
-  // 2. Libérer toutes les feuilles
-  const feuilles = recupererToutesFeuilles();
-  Object.keys(feuilles).forEach(cle => {
-    const f = feuilles[cle];
-    if (f.utilisateurActuel) {
-      try {
-        const ss = SpreadsheetApp.openById(f.idFeuille);
-        ss.removeEditor(f.utilisateurActuel);
-        ss.removeViewer(f.utilisateurActuel);
-        f.utilisateurActuel = '';
-        f.heureEmprunt = null;
-      } catch (e) {
-        console.error(`Erreur nettoyage feuille ${f.titre}: ${e}`);
-      }
-    }
-  });
-  
-  sauvegarderFeuilles(feuilles);
-  journaliserActivite(TYPES_EVENEMENT.NETTOYAGE_SYSTEME, 'Système', 'Réinitialisation nocturne effectuée');
-};
-
-// ==================================================================================
-// CORRECTIFS ET FONCTIONS MANQUANTES
-// ==================================================================================
-
-/**
- * [MANQUANT] Récupère les feuilles disponibles pour l'interface utilisateur.
- * Appelée par index.html -> loadUserSheets()
- */
-const recupererFeuillesDisponibles = (jetonSession) => {
-  const session = verifierJetonSession(jetonSession);
-  if (!session.valide) return { succes: false, message: 'Session invalide' };
-
-  const feuilles = recupererToutesFeuilles();
-  
-  // Transformation de l'objet de stockage en tableau pour le frontend
-  const listeFeuilles = Object.values(feuilles).map(f => ({
-    id: f.idFeuille,
-    nom: f.titre,
-    inUse: !!f.utilisateurActuel, // Vrai si quelqu'un l'utilise
-    groupe: f.groupe
-  }));
-
-  return { succes: true, feuilles: listeFeuilles };
-};
-
-/**
- * [UTILITAIRE] Fonction pour AJOUTER manuellement une feuille au système.
- * À lancer depuis l'éditeur Apps Script pour initialiser vos données.
- * * @param {string} idSpreadsheet - L'ID de la Google Sheet (trouvé dans l'URL)
- * @param {string} titre - Le nom affiché aux utilisateurs
- * @param {string} niveauAcces - 'Editeur' ou 'Lecteur'
- */
-function adminAjouterFeuille(idSpreadsheet, titre, niveauAcces = 'Editeur') {
-  const feuilles = recupererToutesFeuilles();
-  const cle = `feuille_${idSpreadsheet}`;
-  
-  feuilles[cle] = {
-    idFeuille: idSpreadsheet,
-    titre: titre,
-    acces: niveauAcces,
-    groupe: 1,
-    utilisateurActuel: '',
-    heureEmprunt: null
-  };
-  
-  sauvegarderFeuilles(feuilles);
-  console.log(`Feuille "${titre}" ajoutée avec succès au système.`);
-}
-
-function initialiserDonnees() {
-  adminAjouterFeuille('ID_DE_VOTRE_SHEET_ICI', 'Nom du fichier', 'Editeur');
-}
-
-/**
- * ==================================================================================
- * GESTION DES DÉCLENCHEURS (TRIGGERS)
- * ==================================================================================
- */
 
 /**
  * Installe programmatiquement le déclencheur de nettoyage nocturne.
  * À exécuter UNE SEULE FOIS manuellement depuis l'éditeur.
- * * Best Practice : Cette fonction vérifie si le trigger existe déjà pour éviter les doublons.
  */
 const installerDeclencheurNettoyage = () => {
   try {
     const nomFonction = 'nettoyageMinuit';
     
-    // 1. Vérification des déclencheurs existants pour éviter les doublons
+    // Vérification des doublons
     const declencheursExistants = ScriptApp.getProjectTriggers();
     const existeDeja = declencheursExistants.some(trigger => trigger.getHandlerFunction() === nomFonction);
 
@@ -640,16 +593,15 @@ const installerDeclencheurNettoyage = () => {
       return;
     }
 
-    // 2. Création du déclencheur (Chaque jour entre minuit et 1h du matin)
+    // Création du déclencheur (Quotidien, minuit)
     ScriptApp.newTrigger(nomFonction)
       .timeBased()
-      .atHour(0)              // Heure : Minuit
-      .everyDays(1)           // Fréquence : Quotidienne
-      .inTimezone(Session.getScriptTimeZone()) // Fuseau horaire du script
+      .atHour(0)
+      .everyDays(1)
+      .inTimezone(Session.getScriptTimeZone())
       .create();
-
+      
     console.log(`✅ Succès : Le nettoyage automatique est programmé chaque jour entre 00h00 et 01h00.`);
-
   } catch (erreur) {
     console.error(`❌ Erreur lors de l'installation du déclencheur : ${erreur.toString()}`);
   }
@@ -657,12 +609,12 @@ const installerDeclencheurNettoyage = () => {
 
 /**
  * Fonction exécutée automatiquement par le déclencheur.
- * Révoque tous les accès et vide les sessions.
+ * Révoque tous les accès et vide les sessions chaque nuit.
  */
 const nettoyageMinuit = () => {
   console.log('🌙 Début du nettoyage de minuit...');
   
-  // Utilisation d'un verrou pour s'assurer que le nettoyage est atomique
+  // Utilisation d'un verrou global pour cette opération critique
   avecVerrou('nettoyage_nocturne', () => {
     const props = PropertiesService.getScriptProperties();
     
@@ -670,7 +622,7 @@ const nettoyageMinuit = () => {
     props.setProperty('SESSIONS_ACTIVES', '{}');
 
     // 2. Récupération et nettoyage des feuilles
-    const feuilles = recupererToutesFeuilles(); // Assurez-vous que cette fonction existe dans votre code principal
+    const feuilles = recupererToutesFeuilles();
     let modificationsEffectuees = false;
 
     Object.keys(feuilles).forEach(cle => {
@@ -694,14 +646,13 @@ const nettoyageMinuit = () => {
           
         } catch (erreur) {
           console.error(`⚠️ Erreur nettoyage feuille "${feuille.titre}" (ID: ${feuille.idFeuille}): ${erreur.message}`);
-          // On continue la boucle même en cas d'erreur sur une feuille
         }
       }
     });
-    
+
     // 3. Sauvegarde si nécessaire
     if (modificationsEffectuees) {
-      sauvegarderFeuilles(feuilles); // Assurez-vous que cette fonction existe
+      sauvegarderFeuilles(feuilles);
     }
     
     // 4. Trace dans le journal
