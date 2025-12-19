@@ -611,3 +611,7 @@ function adminAjouterFeuille(idSpreadsheet, titre, niveauAcces = 'Editeur') {
   sauvegarderFeuilles(feuilles);
   console.log(`Feuille "${titre}" ajoutée avec succès au système.`);
 }
+
+function initialiserDonnees() {
+  adminAjouterFeuille('ID_DE_VOTRE_SHEET_ICI', 'Nom du fichier', 'Editeur');
+}
