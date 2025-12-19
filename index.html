@@ -269,7 +269,7 @@
             <div style="flex:1; min-width:300px; background-color:#f9f9f9; padding:20px; border-radius:8px;">
               <h3 style="color:var(--primary-color);">Besoin d'aide ?</h3>
               <p style="margin:10px 0;">Problème d'accès ou demande spécifique ?</p>
-              <button class="btn" style="background-color:var(--primary-color);" onclick="alert('Fonctionnalité de contact à venir.')">
+              <button class="btn" style="background-color:var(--primary-color);" onclick="openContactModal()">
                 Contacter l'administrateur
               </button>
             </div>
@@ -328,6 +328,27 @@
     </div>
   </div>
 
+  <div id="contact-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeContactModal()">&times;</span>
+      <h2 style="color:var(--primary-color);">Contacter l'Administrateur</h2>
+      <p style="margin-bottom:15px; font-size:0.9em; color:#666;">
+        Décrivez votre problème ou votre demande. L'administrateur recevra votre email directement.
+      </p>
+      
+      <div class="input-group" style="margin-bottom:20px;">
+        <label>Votre message</label>
+        <textarea id="contact-message" rows="5" 
+          style="width:100%; padding:10px; border:2px solid var(--accent-color); border-radius:5px; font-family:inherit;"
+          placeholder="Ex: J'ai besoin d'accéder à la feuille Budget mais elle est verrouillée..."></textarea>
+      </div>
+      
+      <button class="btn" style="background-color:var(--primary-color); width:100%;" onclick="submitContact()">
+        Envoyer le message
+      </button>
+    </div>
+  </div>
+  
   <footer class="site-footer">
     <p class="footer-text">
       Concept par <strong>Fabrice Faucheux</strong>
@@ -489,6 +510,42 @@
         sessionStorage.removeItem('userSession');
         window.location.reload();
       }
+    }
+
+    // --- GESTION CONTACT ---
+    function openContactModal() {
+      document.getElementById('contact-modal').style.display = 'block';
+      document.getElementById('contact-message').value = ''; // Réinitialiser le champ
+      document.getElementById('contact-message').focus();
+    }
+
+    function closeContactModal() {
+      document.getElementById('contact-modal').style.display = 'none';
+    }
+
+    function submitContact() {
+      const msg = document.getElementById('contact-message').value;
+      if(!msg) return alert("Veuillez écrire un message.");
+
+      // Feedback visuel bouton
+      const btn = document.querySelector('#contact-modal .btn');
+      const oldText = btn.textContent;
+      btn.textContent = "Envoi en cours...";
+      btn.disabled = true;
+
+      google.script.run
+        .withSuccessHandler(res => {
+          alert(res.message);
+          btn.textContent = oldText;
+          btn.disabled = false;
+          if(res.succes) closeContactModal();
+        })
+        .withFailureHandler(err => {
+          alert("Erreur système : " + err);
+          btn.textContent = oldText;
+          btn.disabled = false;
+        })
+        .envoyerMessageAdmin(msg, currentUser.jetonSession);
     }
 
     // --- FONCTIONS UTILISATEUR ---
