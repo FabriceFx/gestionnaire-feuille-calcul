@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestionnaire d'Accès Google Sheets</title>
+  <title>Gestionnaire d'accès Google Sheets</title>
   
   <style>
     /* ==================================================================================
@@ -189,7 +189,7 @@
   </script>
 
   <div class="header">
-    <h1>Gestionnaire d'Accès Google Sheets</h1>
+    <h1>Gestionnaire d'accès Google Sheets</h1>
     <div class="date" id="currentDate"></div>
   </div>
 
@@ -227,10 +227,10 @@
     <div class="tab-content">
       
       <div class="tab-panel active" id="instructions-panel">
-        <h2 style="color: var(--primary-color); margin-bottom: 20px;">Guide d'Utilisation</h2>
+        <h2 style="color: var(--primary-color); margin-bottom: 20px;">Guide d'utilisation</h2>
         
         <div style="background-color: #FFF3E0; border-left: 5px solid #FF9800; padding: 15px; margin-bottom: 20px;">
-          <strong>⚠️ IMPORTANT :</strong> Vous devez posséder un compte <strong>Google Gmail</strong> pour utiliser ce système.
+          <strong>⚠️ IMPORTANT :</strong> Vous devez posséder un compte <strong>Google Workspace</strong> pour utiliser ce système.
         </div>
 
         <div id="documentation-container">
@@ -241,13 +241,13 @@
       <div class="tab-panel" id="users-panel">
         <div id="user-lock-screen" style="text-align: center; padding: 40px;">
           <div style="font-size: 4em; margin-bottom: 20px;">🔒</div>
-          <h2>Accès Restreint</h2>
+          <h2>Accès restreint</h2>
           <p>Veuillez vous connecter pour accéder à vos feuilles de calcul.</p>
         </div>
 
         <div id="user-content" style="display:none;">
           <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--accent-color); padding-bottom:10px; margin-bottom:20px;">
-            <h2 style="color: var(--tab2-color);">Espace Utilisateur</h2>
+            <h2 style="color: var(--tab2-color);">Espace utilisateur</h2>
             <button class="btn btn-logout" onclick="handleLogout()">Déconnexion</button>
           </div>
 
@@ -270,7 +270,7 @@
               <h3 style="color:var(--primary-color);">Besoin d'aide ?</h3>
               <p style="margin:10px 0;">Problème d'accès ou demande spécifique ?</p>
               <button class="btn" style="background-color:var(--primary-color);" onclick="alert('Fonctionnalité de contact à venir.')">
-                Contacter l'Admin
+                Contacter l'administrateur
               </button>
             </div>
           </div>
@@ -280,18 +280,18 @@
       <div class="tab-panel" id="admin-panel">
         <div id="admin-lock-screen" style="text-align: center; padding: 40px;">
           <div style="font-size: 4em; margin-bottom: 20px;">🔐</div>
-          <h2>Accès Administrateur</h2>
+          <h2>Accès administrateur</h2>
           <p>Section réservée aux administrateurs connectés.</p>
         </div>
 
         <div id="admin-content" style="display:none;">
           <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--accent-color); padding-bottom:10px; margin-bottom:20px;">
-            <h2 style="color: var(--tab3-color);">Tableau de Bord Admin</h2>
+            <h2 style="color: var(--tab3-color);">Tableau de bord admin</h2>
             <button class="btn btn-logout" onclick="handleLogout()">Déconnexion</button>
           </div>
           
           <div style="background-color:#f0f0f0; padding:20px; border-radius:8px; margin-bottom:20px;">
-            <h3>État du Système</h3>
+            <h3>État du système</h3>
             <div id="admin-stats" style="margin-top:10px;">Chargement des données...</div>
             <button class="btn" style="background-color:var(--primary-color); margin-top:10px;" onclick="loadAdminData()">
               Actualiser
@@ -312,7 +312,7 @@
       <p style="margin-bottom:15px; font-size:0.9em; color:#666;">Votre compte devra être validé par un administrateur.</p>
       
       <div class="input-group" style="margin-bottom:10px;">
-        <label>Nom Complet</label>
+        <label>Nom complet</label>
         <input type="text" id="reg-name" style="width:100%;">
       </div>
       <div class="input-group" style="margin-bottom:10px;">
@@ -333,7 +333,7 @@
       Concept par <strong>Fabrice Faucheux</strong>
     </p>
     <p class="footer-contact">
-      <a href="#" style="color:var(--secondary-color); text-decoration:none;">Support Technique</a>
+      <a href="mailto:email@gmail.com" style="color:var(--secondary-color); text-decoration:none;">Support Technique</a>
     </p>
   </footer>
 
@@ -370,13 +370,13 @@
 
         const sections = [
           {id: 'doc-what-is', title: '📋 Qu\'est-ce que ce système ?'},
-          {id: 'doc-users', title: '👥 Pour les Utilisateurs'},
-          {id: 'doc-admins', title: '🔧 Pour les Administrateurs'},
-          {id: 'doc-security', title: '🔒 Fonctionnalités de Sécurité'},
-          {id: 'doc-benefits', title: '⚡ Avantages Clés'},
-          {id: 'doc-faq', title: '💡 Questions Fréquentes'},
-          {id: 'doc-best-practices', title: '🚀 Meilleures Pratiques'},
-          {id: 'doc-technical', title: '📊 Spécifications Techniques'}
+          {id: 'doc-users', title: '👥 Pour les utilisateurs'},
+          {id: 'doc-admins', title: '🔧 Pour les administrateurs'},
+          {id: 'doc-security', title: '🔒 Fonctionnalités de sécurité'},
+          {id: 'doc-benefits', title: '⚡ Avantages clés'},
+          {id: 'doc-faq', title: '💡 Questions fréquentes'},
+          {id: 'doc-best-practices', title: '🚀 Meilleures pratiques'},
+          {id: 'doc-technical', title: '📊 Spécifications techniques'}
         ];
 
         sections.forEach(sec => {
