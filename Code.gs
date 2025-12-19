@@ -562,3 +562,52 @@ const nettoyageMinuit = () => {
   sauvegarderFeuilles(feuilles);
   journaliserActivite(TYPES_EVENEMENT.NETTOYAGE_SYSTEME, 'Système', 'Réinitialisation nocturne effectuée');
 };
+
+// ==================================================================================
+// CORRECTIFS ET FONCTIONS MANQUANTES
+// ==================================================================================
+
+/**
+ * [MANQUANT] Récupère les feuilles disponibles pour l'interface utilisateur.
+ * Appelée par index.html -> loadUserSheets()
+ */
+const recupererFeuillesDisponibles = (jetonSession) => {
+  const session = verifierJetonSession(jetonSession);
+  if (!session.valide) return { succes: false, message: 'Session invalide' };
+
+  const feuilles = recupererToutesFeuilles();
+  
+  // Transformation de l'objet de stockage en tableau pour le frontend
+  const listeFeuilles = Object.values(feuilles).map(f => ({
+    id: f.idFeuille,
+    nom: f.titre,
+    inUse: !!f.utilisateurActuel, // Vrai si quelqu'un l'utilise
+    groupe: f.groupe
+  }));
+
+  return { succes: true, feuilles: listeFeuilles };
+};
+
+/**
+ * [UTILITAIRE] Fonction pour AJOUTER manuellement une feuille au système.
+ * À lancer depuis l'éditeur Apps Script pour initialiser vos données.
+ * * @param {string} idSpreadsheet - L'ID de la Google Sheet (trouvé dans l'URL)
+ * @param {string} titre - Le nom affiché aux utilisateurs
+ * @param {string} niveauAcces - 'Editeur' ou 'Lecteur'
+ */
+function adminAjouterFeuille(idSpreadsheet, titre, niveauAcces = 'Editeur') {
+  const feuilles = recupererToutesFeuilles();
+  const cle = `feuille_${idSpreadsheet}`;
+  
+  feuilles[cle] = {
+    idFeuille: idSpreadsheet,
+    titre: titre,
+    acces: niveauAcces,
+    groupe: 1,
+    utilisateurActuel: '',
+    heureEmprunt: null
+  };
+  
+  sauvegarderFeuilles(feuilles);
+  console.log(`Feuille "${titre}" ajoutée avec succès au système.`);
+}
