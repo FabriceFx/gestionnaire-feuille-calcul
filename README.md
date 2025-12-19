@@ -1,4 +1,4 @@
-# Gestionnaire d'Accès Google Sheets
+# Gestionnaire d'accès Google Sheets
 
 ![License MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Platform](https://img.shields.io/badge/Platform-Google%20Apps%20Script-green)
