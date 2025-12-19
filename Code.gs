@@ -724,3 +724,64 @@ function Lanceur_Validation() {
   
   adminValiderUtilisateur(emailAValider);
 }
+
+// ==================================================================================
+// 11. GESTION DES MESSAGES UTILISATEURS
+// ==================================================================================
+
+/**
+ * Envoie un message de l'utilisateur à l'administrateur.
+ * @param {string} message - Le contenu du message.
+ * @param {string} jetonSession - Le jeton de session pour l'authentification.
+ */
+const envoyerMessageAdmin = (message, jetonSession) => {
+  // 1. Vérification de sécurité
+  const session = verifierJetonSession(jetonSession);
+  if (!session.valide) return { succes: false, message: 'Session invalide. Veuillez vous reconnecter.' };
+
+  const msgNettoye = nettoyerEntree(message, 1000); // Limite à 1000 caractères
+  if (!msgNettoye || msgNettoye.trim().length === 0) {
+    return { succes: false, message: 'Le message ne peut pas être vide.' };
+  }
+
+  const emailUtilisateur = session.idUtilisateur;
+
+  return avecVerrou('envoi_email', () => {
+    try {
+      // 2. Construction de l'email
+      const sujet = `[${NOM_SYSTEME}] Message de ${emailUtilisateur}`;
+      const corpsEmail = `
+        Bonjour Admin,
+        
+        Un utilisateur vous a envoyé un message depuis le Gestionnaire d'Accès.
+        
+        👤 De : ${emailUtilisateur}
+        📅 Date : ${new Date().toLocaleString('fr-FR')}
+        
+        -------------------------------------------------------------
+        MESSAGE :
+        ${msgNettoye}
+        -------------------------------------------------------------
+        
+        (Ceci est un message automatique du système)
+      `;
+
+      // 3. Envoi via le service Google Mail
+      MailApp.sendEmail({
+        to: EMAIL_CONTACT_ADMIN,
+        subject: sujet,
+        body: corpsEmail,
+        replyTo: emailUtilisateur // Permet de répondre directement à l'utilisateur
+      });
+
+      // 4. Trace dans le journal
+      journaliserActivite(TYPES_EVENEMENT.CONTACT_ADMIN, emailUtilisateur, 'Message envoyé à l\'admin');
+
+      return { succes: true, message: 'Votre message a été envoyé à l\'administrateur.' };
+
+    } catch (e) {
+      console.error(`Erreur envoi email: ${e.message}`);
+      return { succes: false, message: 'Erreur technique lors de l\'envoi de l\'email.' };
+    }
+  });
+};
