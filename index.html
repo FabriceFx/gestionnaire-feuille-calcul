@@ -9,28 +9,55 @@
     /* ==================================================================================
        CONFIGURATION DES THÈMES
        ================================================================================== */
+    
+    /* THEME 1 - Bleu/Vert (Défaut) */
     :root[data-theme="theme1"] {
-      --primary-color: #2196F3; --secondary-color: #4CAF50; --accent-color: #81C784;
-      --background-color: #F5F9FF; --text-color: #263238;
-      --tab1-color: #42A5F5; --tab2-color: #66BB6A; --tab3-color: #26A69A;
-    }
-    :root[data-theme="theme2"] {
-      --primary-color: #0288D1; --secondary-color: #00ACC1; --accent-color: #4DD0E1;
-      --background-color: #E0F7FA; --text-color: #01579B;
-      --tab1-color: #0288D1; --tab2-color: #00ACC1; --tab3-color: #00838F;
-    }
-    :root[data-theme="theme3"] {
-      --primary-color: #388E3C; --secondary-color: #00897B; --accent-color: #66BB6A;
-      --background-color: #E8F5E9; --text-color: #1B5E20;
-      --tab1-color: #43A047; --tab2-color: #26A69A; --tab3-color: #00695C;
+      --primary-color: #2196F3;
+      --secondary-color: #4CAF50;
+      --accent-color: #81C784;
+      --background-color: #F5F9FF;
+      --text-color: #263238;
+      --tab1-color: #42A5F5;
+      --tab2-color: #66BB6A;
+      --tab3-color: #26A69A;
     }
     
-    /* STYLES GÉNÉRAUX & RESET */
+    /* THEME 2 - Océan (Bleu/Cyan) */
+    :root[data-theme="theme2"] {
+      --primary-color: #0288D1;
+      --secondary-color: #00ACC1;
+      --accent-color: #4DD0E1;
+      --background-color: #E0F7FA;
+      --text-color: #01579B;
+      --tab1-color: #0288D1;
+      --tab2-color: #00ACC1;
+      --tab3-color: #00838F;
+    }
+    
+    /* THEME 3 - Forêt (Vert/Émeraude) */
+    :root[data-theme="theme3"] {
+      --primary-color: #388E3C;
+      --secondary-color: #00897B;
+      --accent-color: #66BB6A;
+      --background-color: #E8F5E9;
+      --text-color: #1B5E20;
+      --tab1-color: #43A047;
+      --tab2-color: #26A69A;
+      --tab3-color: #00695C;
+    }
+    
+    /* ==================================================================================
+       STYLES GÉNÉRAUX
+       ================================================================================== */
+    
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--background-color); color: var(--text-color);
-      padding: 20px; transition: background-color 0.3s ease;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      padding: 20px;
+      transition: background-color 0.3s ease;
     }
     
     /* EN-TÊTE */
@@ -38,14 +65,15 @@
     .header h1 { font-size: 2.5em; color: var(--primary-color); margin-bottom: 10px; font-weight: 600; }
     .header .date { font-size: 1.1em; opacity: 0.8; }
     
-    /* SECTION CONNEXION */
+    /* CONNEXION */
     .login-section {
       display: flex; align-items: flex-end; justify-content: space-between;
       max-width: 1200px; margin: 0 auto 30px auto; padding: 20px;
-      background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       flex-wrap: wrap; gap: 15px;
     }
     .login-fields { display: flex; align-items: flex-end; gap: 15px; flex: 1; min-width: 300px; }
+    
     .input-group { display: flex; flex-direction: column; gap: 5px; }
     .input-group label { font-size: 0.9em; font-weight: 600; }
     .input-group input {
@@ -57,80 +85,112 @@
     /* BOUTONS */
     .btn {
       padding: 10px 25px; border: none; border-radius: 5px; font-size: 1em; font-weight: 600;
-      cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: white;
+      cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); color: white;
     }
-    .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
     .btn-login { background-color: var(--primary-color); }
     .btn-register { background-color: var(--secondary-color); }
     .btn-logout { background-color: #F44336; }
+    .btn-logout:hover { background-color: #D32F2F; }
     
-    /* NAVIGATION ONGLETS */
+    /* ACCORDÉON DOCUMENTATION */
+    .accordion-item {
+      background-color: white; border-radius: 8px; margin-bottom: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden;
+    }
+    .accordion-header {
+      padding: 20px 25px; cursor: pointer; display: flex; justify-content: space-between;
+      align-items: center; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white; font-weight: 600; font-size: 1.1em;
+    }
+    .accordion-header:hover { opacity: 0.9; }
+    .accordion-content {
+      max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease;
+      padding: 0 25px; background-color: white;
+    }
+    .accordion-content.active {
+      max-height: 5000px; padding: 25px; border-top: 2px solid var(--accent-color);
+    }
+    .accordion-icon { font-size: 1.5em; transition: transform 0.3s ease; }
+    .accordion-header.active .accordion-icon { transform: rotate(45deg); }
+
+    /* STYLES DOCUMENTATION INJECTÉS */
+    .doc-section h3 { color: var(--primary-color); border-bottom: 3px solid var(--accent-color); padding-bottom: 10px; margin-bottom: 15px; }
+    .doc-section h4 { color: var(--secondary-color); margin-top: 20px; margin-bottom: 10px; }
+    .concept-box { padding: 15px; border-radius: 5px; margin-bottom: 15px; border-left: 5px solid; }
+    .concept-box.problem { background-color: #FFEBEE; border-left-color: #F44336; color: #C62828; }
+    .concept-box.solution { background-color: #E8F5E9; border-left-color: #4CAF50; color: #2E7D32; }
+    .doc-list { padding-left: 20px; line-height: 1.6; }
+    .doc-list li { margin-bottom: 8px; }
+    .security-feature { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid var(--primary-color); }
+
+    /* ONGLETS */
     .tab-container { max-width: 1200px; margin: 0 auto; }
     .tab-buttons { display: flex; gap: 5px; margin-bottom: 0; }
     .tab-button {
       padding: 15px 30px; border: none; border-radius: 10px 10px 0 0;
-      font-size: 1.1em; font-weight: bold; cursor: pointer; color: white; flex: 1;
-      background-color: #ccc; transition: all 0.3s ease;
+      font-size: 1.1em; font-weight: bold; cursor: pointer; transition: all 0.3s ease;
+      background-color: white; color: white; flex: 1; text-align: left;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     }
-    .tab-button.active { transform: translateY(-5px); box-shadow: 0 -4px 10px rgba(0,0,0,0.2); }
     .tab-button.instructions { background-color: var(--tab1-color); }
     .tab-button.users { background-color: var(--tab2-color); }
     .tab-button.admin { background-color: var(--tab3-color); }
+    .tab-button.active { transform: translateY(-5px); box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2); }
     
     .tab-content {
       background-color: white; padding: 30px; border-radius: 0 10px 10px 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1); min-height: 400px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); min-height: 400px;
     }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
-
-    /* COMPOSANTS UI SPECIFIQUES */
-    .status-message {
-      margin-top: 15px; padding: 12px 15px; border-radius: 5px; font-weight: 600;
-      text-align: center; display: none;
-    }
-    .status-message.success { background-color: #C8E6C9; color: #2E7D32; border: 2px solid #4CAF50; }
-    .status-message.error { background-color: #FFCDD2; color: #C62828; border: 2px solid #F44336; }
     
-    /* THÈMES */
+    /* SWITCHER THEME */
     .theme-switcher { display: flex; gap: 15px; align-items: center; }
-    .theme-circle { width: 35px; height: 35px; border-radius: 50%; cursor: pointer; transition: transform 0.3s; }
-    .theme-circle:hover, .theme-circle.active { transform: scale(1.2); border: 2px solid var(--text-color); }
+    .theme-circle { width: 35px; height: 35px; border-radius: 50%; cursor: pointer; transition: transform 0.3s ease; }
+    .theme-circle:hover { transform: scale(1.2); }
     .theme1-circle { background: linear-gradient(135deg, #2196F3 50%, #4CAF50 50%); }
     .theme2-circle { background: linear-gradient(135deg, #0288D1 50%, #00ACC1 50%); }
     .theme3-circle { background: linear-gradient(135deg, #388E3C 50%, #00897B 50%); }
 
-    /* FOOTER */
-    .site-footer {
-      max-width: 1200px; margin: 40px auto 20px; padding: 25px; text-align: center;
-      background: white; border-radius: 10px; border-top: 4px solid var(--primary-color);
-    }
-
-    /* MODALES */
+    /* MODAL */
     .modal {
       display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.5);
+      overflow: auto; background-color: rgba(0,0,0,0.5);
     }
     .modal-content {
-      background-color: white; margin: 10% auto; padding: 25px; border-radius: 10px;
-      width: 50%; max-width: 600px; position: relative;
+      background-color: white; margin: 10% auto; padding: 25px; border-radius: 10px; width: 90%; max-width: 500px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3); animation: slideIn 0.3s;
     }
-    .close-modal { float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+    @keyframes slideIn { from {transform: translateY(-50px); opacity: 0;} to {transform: translateY(0); opacity: 1;} }
+    .close-modal { float: right; font-size: 28px; font-weight: bold; cursor: pointer; color: #aaa; }
+    .close-modal:hover { color: black; }
+
+    /* FOOTER */
+    .site-footer {
+      max-width: 1200px; margin: 40px auto 20px; padding: 25px 20px; text-align: center;
+      background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-top: 4px solid var(--primary-color);
+    }
     
-    /* AUTRES STYLES UTILITAIRES (Hérités du design original) */
-    .doc-section { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+    /* UTILITAIRES */
+    .status-message {
+      margin-top: 15px; padding: 12px; border-radius: 5px; text-align: center; font-weight: bold; display: none;
+    }
+    .status-message.success { background-color: #C8E6C9; color: #2E7D32; border: 1px solid #4CAF50; }
+    .status-message.error { background-color: #FFCDD2; color: #C62828; border: 1px solid #F44336; }
   </style>
 </head>
 
 <body>
   <script>
-    // Initialisation du thème
-    document.documentElement.setAttribute('data-theme', localStorage.getItem('themeChoisi') || 'theme1');
+    // Appliquer le thème par défaut
+    document.documentElement.setAttribute('data-theme', 'theme1');
   </script>
 
   <div class="header">
     <h1>Gestionnaire d'Accès Google Sheets</h1>
-    <div class="date" id="dateActuelle"></div>
+    <div class="date" id="currentDate"></div>
   </div>
 
   <div class="login-section">
@@ -143,344 +203,370 @@
         <label for="password">Mot de passe</label>
         <input type="password" id="password" placeholder="••••••••">
       </div>
-      <button class="btn btn-login" onclick="gererConnexion()">Connexion</button>
+      <button class="btn btn-login" onclick="handleLogin()">Connexion</button>
     </div>
     
     <div>
-      <button class="btn btn-register" onclick="ouvrirModalInscription()">Créer un compte</button>
+      <button class="btn btn-register" onclick="openRegistrationModal()">S'inscrire</button>
     </div>
     
     <div class="theme-switcher">
-      <div class="theme-circle theme1-circle" onclick="changerTheme('theme1')" title="Thème Classique"></div>
-      <div class="theme-circle theme2-circle" onclick="changerTheme('theme2')" title="Thème Océan"></div>
-      <div class="theme-circle theme3-circle" onclick="changerTheme('theme3')" title="Thème Forêt"></div>
+      <div class="theme-circle theme1-circle" onclick="switchTheme('theme1')" title="Thème Classique"></div>
+      <div class="theme-circle theme2-circle" onclick="switchTheme('theme2')" title="Thème Océan"></div>
+      <div class="theme-circle theme3-circle" onclick="switchTheme('theme3')" title="Thème Forêt"></div>
     </div>
   </div>
 
   <div class="tab-container">
     <div class="tab-buttons">
-      <button class="tab-button instructions active" onclick="changerOnglet('instructions')">Instructions</button>
-      <button class="tab-button users" onclick="changerOnglet('users')">Espace Utilisateur</button>
-      <button class="tab-button admin" onclick="changerOnglet('admin')">Administration</button>
+      <button class="tab-button instructions active" onclick="switchTab('instructions')">Instructions</button>
+      <button class="tab-button users" onclick="switchTab('users')">Espace Utilisateur</button>
+      <button class="tab-button admin" onclick="switchTab('admin')">Administration</button>
     </div>
     
     <div class="tab-content">
       
       <div class="tab-panel active" id="instructions-panel">
-        <h2 style="color: var(--primary-color);">Guide d'Utilisation</h2>
-        <div style="background-color: #FFF3E0; border-left: 5px solid #FF9800; padding: 15px; margin: 20px 0;">
+        <h2 style="color: var(--primary-color); margin-bottom: 20px;">Guide d'Utilisation</h2>
+        
+        <div style="background-color: #FFF3E0; border-left: 5px solid #FF9800; padding: 15px; margin-bottom: 20px;">
           <strong>⚠️ IMPORTANT :</strong> Vous devez posséder un compte <strong>Google Gmail</strong> pour utiliser ce système.
         </div>
-        <div id="conteneur-documentation">Chargement de la documentation...</div>
+
+        <div id="documentation-container">
+          <p style="text-align:center; color:#666;">Chargement de la documentation...</p>
+        </div>
       </div>
       
       <div class="tab-panel" id="users-panel">
-        <div id="verrou-user" style="text-align: center; padding: 40px;">
-          <h2>🔒 Accès Restreint</h2>
+        <div id="user-lock-screen" style="text-align: center; padding: 40px;">
+          <div style="font-size: 4em; margin-bottom: 20px;">🔒</div>
+          <h2>Accès Restreint</h2>
           <p>Veuillez vous connecter pour accéder à vos feuilles de calcul.</p>
         </div>
-        
-        <div id="contenu-user" style="display:none;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-            <h2 style="color: var(--tab2-color);">Vos Feuilles de Calcul</h2>
-            <button class="btn btn-logout" onclick="gererDeconnexion()">Déconnexion</button>
+
+        <div id="user-content" style="display:none;">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--accent-color); padding-bottom:10px; margin-bottom:20px;">
+            <h2 style="color: var(--tab2-color);">Espace Utilisateur</h2>
+            <button class="btn btn-logout" onclick="handleLogout()">Déconnexion</button>
           </div>
-          
-          <div style="display:flex; gap:30px;">
-            <div style="flex:1;">
-              <h3>Demander un accès</h3>
+
+          <div style="display:flex; gap:30px; flex-wrap:wrap;">
+            <div style="flex:1; min-width:300px;">
+              <h3 style="color:var(--primary-color);">Demander l'accès</h3>
               <div class="input-group" style="margin-top:15px;">
-                <label>Sélectionner un fichier :</label>
-                <select id="select-feuille" style="padding:10px; border-radius:5px; border:2px solid var(--accent-color);">
-                  <option value="">-- Chargement... --</option>
+                <label>Sélectionnez une feuille :</label>
+                <select id="sheet-select" style="padding:10px; border:2px solid var(--accent-color); border-radius:5px; width:100%;">
+                  <option value="">-- Choisir une feuille --</option>
                 </select>
               </div>
-              <button class="btn" style="background-color: var(--secondary-color); margin-top:15px;" onclick="demanderAcces()">
+              <button class="btn" style="background-color:var(--secondary-color); margin-top:15px; width:100%;" onclick="requestAccess()">
                 Ouvrir la feuille
               </button>
-              <div id="msg-acces" class="status-message"></div>
+              <div id="user-msg" class="status-message"></div>
             </div>
-            
-            <div style="flex:1; border-left:2px solid #eee; padding-left:30px;">
-              <h3>Actuellement utilisé</h3>
-              <div id="liste-utilisation" style="margin-top:15px; font-style:italic; color:#666;">
-                Aucune feuille en cours d'utilisation.
-              </div>
+
+            <div style="flex:1; min-width:300px; background-color:#f9f9f9; padding:20px; border-radius:8px;">
+              <h3 style="color:var(--primary-color);">Besoin d'aide ?</h3>
+              <p style="margin:10px 0;">Problème d'accès ou demande spécifique ?</p>
+              <button class="btn" style="background-color:var(--primary-color);" onclick="alert('Fonctionnalité de contact à venir.')">
+                Contacter l'Admin
+              </button>
             </div>
           </div>
         </div>
       </div>
       
       <div class="tab-panel" id="admin-panel">
-        <div id="verrou-admin" style="text-align: center; padding: 40px;">
-          <h2>🔐 Accès Administrateur</h2>
-          <p>Cette section est réservée aux administrateurs connectés.</p>
+        <div id="admin-lock-screen" style="text-align: center; padding: 40px;">
+          <div style="font-size: 4em; margin-bottom: 20px;">🔐</div>
+          <h2>Accès Administrateur</h2>
+          <p>Section réservée aux administrateurs connectés.</p>
         </div>
-        
-        <div id="contenu-admin" style="display:none;">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
+
+        <div id="admin-content" style="display:none;">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--accent-color); padding-bottom:10px; margin-bottom:20px;">
             <h2 style="color: var(--tab3-color);">Tableau de Bord Admin</h2>
-            <button class="btn btn-logout" onclick="gererDeconnexion()">Déconnexion</button>
+            <button class="btn btn-logout" onclick="handleLogout()">Déconnexion</button>
           </div>
-          <p>Bienvenue dans l'interface de gestion. Utilisez les outils ci-dessous pour gérer les utilisateurs et les fichiers.</p>
           
-          <div style="margin-top:20px; padding:20px; background:#f9f9f9; border-radius:8px;">
+          <div style="background-color:#f0f0f0; padding:20px; border-radius:8px; margin-bottom:20px;">
             <h3>État du Système</h3>
-            <p id="stats-admin">Chargement des statistiques...</p>
-            <button class="btn" style="background-color: var(--primary-color); margin-top:10px;" onclick="chargerDonneesAdmin()">
-              🔄 Actualiser les données
+            <div id="admin-stats" style="margin-top:10px;">Chargement des données...</div>
+            <button class="btn" style="background-color:var(--primary-color); margin-top:10px;" onclick="loadAdminData()">
+              Actualiser
             </button>
           </div>
+          
+          <p style="font-style:italic;">(Interface d'administration complète disponible dans les versions futures)</p>
         </div>
       </div>
 
     </div>
   </div>
 
-  <div id="modal-inscription" class="modal">
+  <div id="reg-modal" class="modal">
     <div class="modal-content">
-      <span class="close-modal" onclick="fermerModalInscription()">&times;</span>
-      <h2>Créer un compte</h2>
-      <p>Votre inscription devra être validée par un administrateur.</p>
-      <form onsubmit="soumettreInscription(event)">
-        <div class="input-group" style="margin-bottom:15px;">
-          <label>Nom Complet</label>
-          <input type="text" id="reg-nom" required style="width:100%;">
-        </div>
-        <div class="input-group" style="margin-bottom:15px;">
-          <label>Email Gmail</label>
-          <input type="email" id="reg-email" required style="width:100%;">
-        </div>
-        <div class="input-group" style="margin-bottom:15px;">
-          <label>Mot de passe (min 8 car.)</label>
-          <input type="password" id="reg-mdp" required minlength="8" style="width:100%;">
-        </div>
-        <button type="submit" class="btn btn-register" style="width:100%;">S'inscrire</button>
-      </form>
+      <span class="close-modal" onclick="closeRegistrationModal()">&times;</span>
+      <h2 style="color:var(--secondary-color);">Créer un compte</h2>
+      <p style="margin-bottom:15px; font-size:0.9em; color:#666;">Votre compte devra être validé par un administrateur.</p>
+      
+      <div class="input-group" style="margin-bottom:10px;">
+        <label>Nom Complet</label>
+        <input type="text" id="reg-name" style="width:100%;">
+      </div>
+      <div class="input-group" style="margin-bottom:10px;">
+        <label>Email Gmail</label>
+        <input type="email" id="reg-email" style="width:100%;">
+      </div>
+      <div class="input-group" style="margin-bottom:20px;">
+        <label>Mot de passe (8+ caractères)</label>
+        <input type="password" id="reg-pass" style="width:100%;">
+      </div>
+      
+      <button class="btn btn-register" style="width:100%;" onclick="submitRegistration()">S'inscrire</button>
     </div>
   </div>
 
   <footer class="site-footer">
-    <p>Conception et Développement par <strong>Fabrice Faucheux</strong></p>
-    <p style="font-size:0.9em; margin-top:5px;">
-      Propulsé par Google Apps Script &bull; <a href="#" style="color:var(--primary-color);">Contact Support</a>
+    <p class="footer-text">
+      Concept par <strong>Fabrice Faucheux</strong>
+    </p>
+    <p class="footer-contact">
+      <a href="#" style="color:var(--secondary-color); text-decoration:none;">Support Technique</a>
     </p>
   </footer>
 
   <script>
-    // ÉTAT GLOBAL
-    let utilisateurCourant = null;
+    // Variables globales
+    let currentUser = null;
+    let docSections = {};
 
-    // INITIALISATION
+    // Initialisation
     window.onload = function() {
-      afficherDate();
-      chargerDocumentation();
+      // Date
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById('currentDate').textContent = new Date().toLocaleDateString('fr-FR', options);
       
-      // Vérification session existante
-      const sessionSauvegardee = sessionStorage.getItem('sessionUtilisateur');
-      if (sessionSauvegardee) {
-        utilisateurCourant = JSON.parse(sessionSauvegardee);
-        deverrouillerInterface(utilisateurCourant);
+      // Chargement Documentation
+      loadDocumentation();
+      
+      // Restauration Session
+      const savedSession = sessionStorage.getItem('userSession');
+      if (savedSession) {
+        currentUser = JSON.parse(savedSession);
+        unlockInterface(currentUser);
       }
     };
 
-    function afficherDate() {
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      document.getElementById('dateActuelle').textContent = new Date().toLocaleDateString('fr-FR', options);
+    // --- GESTION DOCUMENTATION ---
+    function loadDocumentation() {
+      google.script.run.withSuccessHandler(function(html) {
+        // Parsing du HTML reçu pour créer les accordéons
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const container = document.getElementById('documentation-container');
+        container.innerHTML = ''; // Clear loading msg
+
+        const sections = [
+          {id: 'doc-what-is', title: '📋 Qu\'est-ce que ce système ?'},
+          {id: 'doc-users', title: '👥 Pour les Utilisateurs'},
+          {id: 'doc-admins', title: '🔧 Pour les Administrateurs'},
+          {id: 'doc-security', title: '🔒 Fonctionnalités de Sécurité'},
+          {id: 'doc-benefits', title: '⚡ Avantages Clés'},
+          {id: 'doc-faq', title: '💡 Questions Fréquentes'},
+          {id: 'doc-best-practices', title: '🚀 Meilleures Pratiques'},
+          {id: 'doc-technical', title: '📊 Spécifications Techniques'}
+        ];
+
+        sections.forEach(sec => {
+          const contentEl = doc.getElementById(sec.id);
+          if (contentEl) {
+            const item = document.createElement('div');
+            item.className = 'accordion-item';
+            item.innerHTML = `
+              <div class="accordion-header" onclick="toggleAccordion(this)">
+                <span>${sec.title}</span>
+                <span class="accordion-icon">+</span>
+              </div>
+              <div class="accordion-content">
+                ${contentEl.innerHTML}
+              </div>
+            `;
+            container.appendChild(item);
+          }
+        });
+
+      }).recupererHtmlDocumentation();
     }
 
-    // GESTION DES ONGLETS
-    function changerOnglet(nomOnglet) {
+    function toggleAccordion(header) {
+      const content = header.nextElementSibling;
+      const isActive = header.classList.contains('active');
+      
+      // Fermer tous
+      document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('active'));
+      document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('active'));
+      
+      // Ouvrir cliqué
+      if (!isActive) {
+        header.classList.add('active');
+        content.classList.add('active');
+      }
+    }
+
+    // --- GESTION INTERFACE ---
+    function switchTab(tabName) {
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
       
-      document.getElementById(nomOnglet + '-panel').classList.add('active');
-      document.querySelector('.tab-button.' + nomOnglet).classList.add('active');
+      document.getElementById(tabName + '-panel').classList.add('active');
+      document.querySelector('.tab-button.' + tabName).classList.add('active');
     }
 
-    function changerTheme(theme) {
+    function switchTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('themeChoisi', theme);
     }
 
-    // CHARGEMENT DOCUMENTATION
-    function chargerDocumentation() {
-      google.script.run
-        .withSuccessHandler(html => {
-          document.getElementById('conteneur-documentation').innerHTML = html;
-        })
-        .recupererHtmlDocumentation();
-    }
-
-    // CONNEXION
-    function gererConnexion() {
+    // --- AUTHENTIFICATION ---
+    function handleLogin() {
       const email = document.getElementById('email').value;
-      const mdp = document.getElementById('password').value;
+      const pass = document.getElementById('password').value;
       const btn = document.querySelector('.btn-login');
 
-      if (!email || !mdp) {
-        alert("Veuillez remplir tous les champs.");
-        return;
-      }
+      if(!email || !pass) { alert('Champs manquants'); return; }
 
-      const texteOriginal = btn.textContent;
-      btn.textContent = "Connexion...";
+      const oldText = btn.textContent;
+      btn.textContent = 'Connexion...';
       btn.disabled = true;
 
       google.script.run
-        .withSuccessHandler(resultat => {
-          btn.textContent = texteOriginal;
+        .withSuccessHandler(res => {
+          btn.textContent = oldText;
           btn.disabled = false;
-          
-          if (resultat.succes) {
-            utilisateurCourant = resultat;
-            sessionStorage.setItem('sessionUtilisateur', JSON.stringify(resultat));
-            deverrouillerInterface(resultat);
-            alert("Bienvenue !");
+          if(res.succes) {
+            currentUser = res;
+            sessionStorage.setItem('userSession', JSON.stringify(res));
+            unlockInterface(res);
+            alert('Connexion réussie !');
+            // Nettoyage
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
           } else {
-            alert("Erreur : " + resultat.message);
+            alert('Erreur : ' + res.message);
           }
         })
         .withFailureHandler(err => {
-          btn.textContent = texteOriginal;
+          btn.textContent = oldText;
           btn.disabled = false;
-          alert("Erreur système : " + err.message);
+          alert('Erreur système : ' + err.message);
         })
-        .connecterUtilisateur(email, mdp);
+        .connecterUtilisateur(email, pass);
     }
 
-    function deverrouillerInterface(user) {
-      // Nettoyage champs login
-      document.getElementById('email').value = "";
-      document.getElementById('password').value = "";
+    function unlockInterface(user) {
+      // Déverrouiller User
+      document.getElementById('user-lock-screen').style.display = 'none';
+      document.getElementById('user-content').style.display = 'block';
+      
+      // Charger feuilles
+      loadUserSheets();
 
-      // Déverrouillage User
-      document.getElementById('verrou-user').style.display = 'none';
-      document.getElementById('contenu-user').style.display = 'block';
-      changerOnglet('users');
-      chargerFeuillesDisponibles();
-
-      // Déverrouillage Admin
-      if (user.estAdmin) {
-        document.getElementById('verrou-admin').style.display = 'none';
-        document.getElementById('contenu-admin').style.display = 'block';
-        chargerDonneesAdmin();
+      // Déverrouiller Admin si besoin
+      if(user.estAdmin) {
+        document.getElementById('admin-lock-screen').style.display = 'none';
+        document.getElementById('admin-content').style.display = 'block';
+        loadAdminData();
+        switchTab('admin');
+      } else {
+        switchTab('users');
       }
     }
 
-    // DÉCONNEXION
-    function gererDeconnexion() {
-      if (!confirm("Voulez-vous vraiment vous déconnecter ?")) return;
-
-      google.script.run
-        .withSuccessHandler(() => {
-          sessionStorage.removeItem('sessionUtilisateur');
-          window.location.reload(); // Rechargement propre
-        })
-        .deconnecterUtilisateur(utilisateurCourant.jetonSession);
+    function handleLogout() {
+      if(confirm('Se déconnecter ?')) {
+        google.script.run.deconnecterUtilisateur(currentUser.jetonSession);
+        sessionStorage.removeItem('userSession');
+        window.location.reload();
+      }
     }
 
-    // GESTION INSCRIPTION
-    function ouvrirModalInscription() { document.getElementById('modal-inscription').style.display = 'block'; }
-    function fermerModalInscription() { document.getElementById('modal-inscription').style.display = 'none'; }
-
-    function soumettreInscription(e) {
-      e.preventDefault();
-      const nom = document.getElementById('reg-nom').value;
-      const email = document.getElementById('reg-email').value;
-      const mdp = document.getElementById('reg-mdp').value;
-
-      google.script.run
-        .withSuccessHandler(res => {
-          if (res.succes) {
-            alert(res.message);
-            fermerModalInscription();
-          } else {
-            alert("Erreur : " + res.message);
-          }
-        })
-        .inscrireNouvelUtilisateur(email, mdp, nom);
-    }
-
-    // FONCTIONS UTILISATEUR
-    function chargerFeuillesDisponibles() {
-      const select = document.getElementById('select-feuille');
-      // Pour cet exemple, on utilise une fonction générique ou adaptée
-      // On assume que le backend a une fonction 'recupererFeuillesDisponibles'
-      // Sinon on peut simuler l'appel ici.
+    // --- FONCTIONS UTILISATEUR ---
+    function loadUserSheets() {
+      // Note : Assurez-vous que recupererFeuillesDisponibles est implémentée dans Code.gs
+      // Sinon, adaptez pour utiliser recupererDonneesTableauBord si admin, ou autre.
+      const select = document.getElementById('sheet-select');
       select.innerHTML = '<option>Chargement...</option>';
-      
-      // Note : Vous devrez implémenter recupererFeuillesDisponibles(jeton) dans Code.gs 
-      // ou utiliser recupererDonneesTableauBord et filtrer.
-      // Ici j'utilise le pattern standard.
-      google.script.run
-        .withSuccessHandler(res => {
-           select.innerHTML = '<option value="">-- Choisir une feuille --</option>';
-           if(res.succes && res.feuilles) {
-             res.feuilles.forEach(f => {
-               const opt = document.createElement('option');
-               opt.value = f.id;
-               opt.textContent = f.nom + (f.utilisateurActuel ? " (Occupé)" : "");
-               if (f.utilisateurActuel) opt.disabled = true;
-               select.appendChild(opt);
-             });
-           }
-        })
-        // Fallback si la fonction n'est pas encore créée dans Code.gs, on simule :
-        .withFailureHandler(() => {
-           select.innerHTML = '<option disabled>Erreur chargement liste</option>';
-        })
-        .recupererFeuillesDisponibles(utilisateurCourant.jetonSession); 
+
+      google.script.run.withSuccessHandler(res => {
+        select.innerHTML = '<option value="">-- Choisir une feuille --</option>';
+        if(res.succes && res.feuilles) {
+          res.feuilles.forEach(f => {
+            const opt = document.createElement('option');
+            opt.value = f.id;
+            opt.textContent = f.nom + (f.inUse ? ' (Occupé)' : '');
+            if(f.inUse) opt.disabled = true;
+            select.appendChild(opt);
+          });
+        }
+      }).recupererFeuillesDisponibles(currentUser.jetonSession);
     }
 
-    function demanderAcces() {
-      const idFeuille = document.getElementById('select-feuille').value;
-      if (!idFeuille) return;
+    function requestAccess() {
+      const id = document.getElementById('sheet-select').value;
+      if(!id) return;
       
-      const msgDiv = document.getElementById('msg-acces');
-      msgDiv.style.display = 'block';
-      msgDiv.className = 'status-message';
-      msgDiv.textContent = "Demande d'accès en cours...";
+      const msg = document.getElementById('user-msg');
+      msg.style.display = 'block';
+      msg.className = 'status-message';
+      msg.textContent = 'Demande en cours...';
 
-      google.script.run
-        .withSuccessHandler(res => {
-          if (res.succes) {
-            msgDiv.className = 'status-message success';
-            msgDiv.textContent = res.message;
-            window.open(res.urlFeuille, '_blank');
-            chargerFeuillesDisponibles(); // Rafraichir la liste
-          } else {
-            msgDiv.className = 'status-message error';
-            msgDiv.textContent = res.message;
-          }
-        })
-        .demanderAccesFeuille(idFeuille, utilisateurCourant.jetonSession);
+      google.script.run.withSuccessHandler(res => {
+        if(res.succes) {
+          msg.className = 'status-message success';
+          msg.textContent = res.message;
+          window.open(res.urlFeuille, '_blank');
+          loadUserSheets(); // Refresh
+        } else {
+          msg.className = 'status-message error';
+          msg.textContent = res.message;
+        }
+      }).demanderAccesFeuille(id, currentUser.jetonSession);
     }
 
-    // FONCTIONS ADMIN
-    function chargerDonneesAdmin() {
-      if (!utilisateurCourant.estAdmin) return;
-      
-      document.getElementById('stats-admin').textContent = "Récupération des données...";
-      
-      google.script.run
-        .withSuccessHandler(res => {
-          if (res.succes) {
-            document.getElementById('stats-admin').innerHTML = `
-              <strong>Utilisateurs Inscrits :</strong> ${res.utilisateurs.length}<br>
-              <strong>Feuilles Gérées :</strong> ${res.feuilles.length}<br>
-              <strong>Stockage utilisé :</strong> ${res.stockage.pourcentageUtilise}%
-            `;
-          }
-        })
-        .recupererDonneesTableauBord(utilisateurCourant.jetonSession);
+    // --- FONCTIONS ADMIN ---
+    function loadAdminData() {
+      const div = document.getElementById('admin-stats');
+      div.innerHTML = 'Chargement...';
+      google.script.run.withSuccessHandler(res => {
+        if(res.succes) {
+          div.innerHTML = `
+            <strong>Utilisateurs :</strong> ${res.utilisateurs.length}<br>
+            <strong>Feuilles :</strong> ${res.feuilles.length}<br>
+            <strong>Stockage :</strong> ${res.stockage.pourcentageUtilise}%
+          `;
+        }
+      }).recupererDonneesTableauBord(currentUser.jetonSession);
     }
 
-    // Fermeture modal au clic extérieur
-    window.onclick = function(event) {
-      if (event.target == document.getElementById('modal-inscription')) {
-        fermerModalInscription();
-      }
+    // --- MODALES ---
+    function openRegistrationModal() { document.getElementById('reg-modal').style.display = 'block'; }
+    function closeRegistrationModal() { document.getElementById('reg-modal').style.display = 'none'; }
+    
+    function submitRegistration() {
+      const nom = document.getElementById('reg-name').value;
+      const email = document.getElementById('reg-email').value;
+      const pass = document.getElementById('reg-pass').value;
+
+      google.script.run.withSuccessHandler(res => {
+        alert(res.message);
+        if(res.succes) closeRegistrationModal();
+      }).inscrireNouvelUtilisateur(email, pass, nom);
+    }
+
+    // Fermeture clic extérieur
+    window.onclick = function(e) {
+      if(e.target == document.getElementById('reg-modal')) closeRegistrationModal();
     }
   </script>
 </body>
