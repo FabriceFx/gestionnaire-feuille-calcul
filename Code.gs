@@ -663,3 +663,64 @@ const nettoyageMinuit = () => {
     );
   });
 };
+// ==================================================================================
+// 10. GESTION MANUELLE DES UTILISATEURS (ADMIN)
+// ==================================================================================
+
+/**
+ * Valide manuellement un utilisateur en attente.
+ * À exécuter directement depuis l'éditeur Apps Script.
+ * * @param {string} emailCible - L'email de l'utilisateur à valider (ex: 'jean.dupont@gmail.com').
+ */
+const adminValiderUtilisateur = (emailCible) => {
+  if (!emailCible) {
+    console.error("❌ Erreur : Veuillez spécifier un email.");
+    return;
+  }
+
+  const emailNorm = normaliserEmail(emailCible);
+  
+  avecVerrou('admin_validation', () => {
+    const utilisateurs = recupererTousUtilisateurs();
+    const cleUser = `user_${emailNorm}`;
+    const utilisateur = utilisateurs[cleUser];
+
+    // 1. Vérification de l'existence
+    if (!utilisateur) {
+      console.error(`❌ Erreur : Aucun utilisateur trouvé avec l'email "${emailNorm}".`);
+      return;
+    }
+
+    // 2. Vérification du statut actuel
+    if (utilisateur.approbationInscription === 'approuve') {
+      console.warn(`⚠️ Info : L'utilisateur "${emailNorm}" est déjà validé.`);
+      return;
+    }
+
+    // 3. Validation
+    utilisateur.approbationInscription = 'approuve';
+    
+    // Sauvegarde
+    sauvegarderUtilisateurs(utilisateurs);
+    
+    console.log(`✅ Succès : L'utilisateur ${utilisateur.nomComplet} (${emailNorm}) a été validé et peut maintenant se connecter.`);
+    
+    // Trace dans le journal
+    journaliserActivite(
+      TYPES_EVENEMENT.UTILISATEUR_APPROUVE, 
+      'Admin', 
+      `Validation manuelle de : ${emailNorm}`
+    );
+  });
+};
+
+/**
+ * Fonction utilitaire pour lancer la validation rapidement.
+ * Modifiez l'email ici et cliquez sur "Exécuter" dans la barre d'outils.
+ */
+function Lanceur_Validation() {
+  // 👇 REMPLACEZ L'EMAIL CI-DESSOUS PAR CELUI DE VOTRE NOUVEL UTILISATEUR 👇
+  const emailAValider = 'email.utilisateur@gmail.com'; 
+  
+  adminValiderUtilisateur(emailAValider);
+}
