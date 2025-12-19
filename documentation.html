@@ -1,315 +1,270 @@
-<!-- ============================================================================
-     DOCUMENTATION CONTENT - Expandable Sections
-     ============================================================================ -->
-
-<!-- Section 1: What Is This System? -->
 <div class="doc-section" id="doc-what-is">
-  <h3>📋 What Is This System?</h3>
+  <h3>📋 Qu'est-ce que ce système ?</h3>
   <p>
-    The <strong>Google Sheets Access Manager</strong> is a centralized control system that manages who can access your organization's Google Sheets and when. Think of it as a "checkout system" for spreadsheets - similar to how a library manages books, this system ensures only one person edits a spreadsheet at a time, preventing conflicts and maintaining data integrity.
+    Le <strong>Gestionnaire d'Accès Google Sheets</strong> est un système de contrôle centralisé qui gère qui peut accéder aux feuilles de calcul de votre organisation et quand. Considérez-le comme un "système d'emprunt" pour les fichiers : tout comme une bibliothèque gère les livres, ce système garantit qu'une seule personne édite une feuille de calcul à la fois, évitant ainsi les conflits et maintenant l'intégrité des données.
   </p>
   
-  <h4>🎯 Core Concept</h4>
+  <h4>🎯 Concept Central</h4>
   <div class="concept-box problem">
-    <strong>The Problem:</strong> When multiple people have permanent access to shared spreadsheets, you risk version conflicts, accidental overwrites, and unclear accountability. You may also forget who has access to what, creating security vulnerabilities.
+    <strong>Le Problème :</strong> Lorsque plusieurs personnes ont un accès permanent à des feuilles partagées, vous risquez des conflits de versions, des écrasements accidentels et un manque de traçabilité. Vous pouvez également oublier qui a accès à quoi, créant des failles de sécurité.
   </div>
   
   <div class="concept-box solution">
-    <strong>The Solution:</strong> This system provides <strong>temporary, time-limited access</strong> that automatically expires every night at midnight. Users "check out" a spreadsheet when they need it, work on it, and "check in" when done by logging out. No more permanent sharing links or forgotten permissions.
+    <strong>La Solution :</strong> Ce système fournit un <strong>accès temporaire et limité dans le temps</strong> qui expire automatiquement chaque nuit à minuit. Les utilisateurs "empruntent" une feuille quand ils en ont besoin, travaillent dessus, et la "rendent" en se déconnectant. Plus de liens de partage permanents ou d'oublis de permissions.
   </div>
 </div>
 
-<!-- Section 2: For General Users -->
 <div class="doc-section" id="doc-users">
-  <h3>👥 For General Users</h3>
+  <h3>👥 Pour les Utilisateurs</h3>
   
-  <h4>Getting Started</h4>
+  <h4>Premiers Pas</h4>
   <ol class="doc-list">
-    <li><strong>Register:</strong> Create an account with your Gmail address and a secure password</li>
-    <li><strong>Wait for Approval:</strong> An administrator will review and approve your registration</li>
-    <li><strong>Login:</strong> Once approved, log in to access the system</li>
+    <li><strong>Inscription :</strong> Créez un compte avec votre adresse Gmail et un mot de passe sécurisé.</li>
+    <li><strong>Attente d'approbation :</strong> Un administrateur examinera et validera votre inscription.</li>
+    <li><strong>Connexion :</strong> Une fois approuvé, connectez-vous pour accéder au système.</li>
   </ol>
   
-  <h4>Requesting Spreadsheet Access</h4>
+  <h4>Demander l'accès à une feuille</h4>
   <ol class="doc-list">
-    <li>Navigate to the <strong>Users</strong> tab</li>
-    <li>Select the spreadsheet you need from the dropdown menu</li>
-    <li>Click <strong>"Request Access"</strong></li>
-    <li>The system instantly grants you permission and opens the spreadsheet in a new tab</li>
-    <li>Work on your spreadsheet with the access level assigned (Viewer or Editor)</li>
+    <li>Allez dans l'onglet <strong>Espace Utilisateur</strong>.</li>
+    <li>Sélectionnez la feuille dont vous avez besoin dans le menu déroulant.</li>
+    <li>Cliquez sur <strong>"Ouvrir la feuille"</strong>.</li>
+    <li>Le système vous accorde instantanément la permission et ouvre la feuille dans un nouvel onglet.</li>
+    <li>Travaillez sur votre feuille avec le niveau d'accès attribué (Lecteur ou Éditeur).</li>
   </ol>
   
-  <h4>Important Rules</h4>
+  <h4>Règles Importantes</h4>
   <ul class="doc-list rules">
-    <li>✅ <strong>Keep the Access Manager tab open</strong> while working on your spreadsheet</li>
-    <li>✅ <strong>Click "Logout" when finished</strong> to release the spreadsheet for others</li>
-    <li>✅ Only one person can edit a spreadsheet at a time (prevents conflicts)</li>
-    <li>✅ All permissions automatically expire at midnight for security</li>
-    <li>⚠️ You can check out multiple spreadsheets, but this is <strong>discouraged</strong> to ensure fair access</li>
+    <li>✅ <strong>Gardez l'onglet du Gestionnaire ouvert</strong> pendant que vous travaillez.</li>
+    <li>✅ <strong>Cliquez sur "Déconnexion" une fois terminé</strong> pour libérer la feuille pour les autres.</li>
+    <li>✅ Une seule personne peut éditer une feuille à la fois (pour éviter les conflits).</li>
+    <li>✅ Toutes les permissions expirent automatiquement à minuit par sécurité.</li>
+    <li>⚠️ Vous pouvez emprunter plusieurs feuilles, mais cela est <strong>déconseillé</strong> pour garantir un accès équitable.</li>
   </ul>
   
-  <h4>Need Help?</h4>
+  <h4>Besoin d'aide ?</h4>
   <p>
-    Click the <strong>"Contact Admin"</strong> button to send a message directly to the administrator about access issues, questions, or requests for additional spreadsheets.
+    Cliquez sur le bouton <strong>"Contact Admin"</strong> pour envoyer un message directement à l'administrateur concernant des problèmes d'accès, des questions ou des demandes de feuilles supplémentaires.
   </p>
 </div>
 
-<!-- Section 3: For Administrators -->
 <div class="doc-section" id="doc-admins">
-  <h3>🔧 For Administrators</h3>
+  <h3>🔧 Pour les Administrateurs</h3>
   
-    <h4>Addmin - Security</h4>
+  <h4>Sécurité Admin</h4>
   <ul class="doc-list">
-    <li><strong>GMAIL Account that deploys wep app - is the web app SUPER ADMIN</li>
-    <li><strong>Other Admin may be assigned/approved - BUT CANNOT ACCESS/MODIFY/RESTRICT SUPER ADMIN</li>
-    <li><strong>Other Admin's CANNOT share spreadsheets from their account</li>
-    <li><strong>No Users or Admin's given Viewer or Editor access to spreadsheets allowed to re-share spreadsheets</strong></li>
+    <li><strong>Le compte GMAIL qui déploie l'application est le SUPER ADMIN.</strong></li>
+    <li><strong>Les autres Admins peuvent être assignés/approuvés mais NE PEUVENT PAS MODIFIER le Super Admin.</strong></li>
+    <li><strong>Les Admins ne peuvent pas partager de feuilles directement depuis leur compte Google Drive (hors système).</strong></li>
   </ul>
 
-  <h4>User Management</h4>
+  <h4>Gestion des Utilisateurs</h4>
   <ul class="doc-list">
-    <li><strong>Approve/Reject Registrations:</strong> Review new user registrations and approve legitimate users</li>
-    <li><strong>Manage User Accounts:</strong> Edit user details, set admin privileges, place holds on accounts</li>
-    <li><strong>Assign Spreadsheets:</strong> Grant users access to individual spreadsheets or entire groups</li>
-    <li><strong>Delete Users:</strong> Remove users from the system and revoke all their permissions</li>
+    <li><strong>Approuver/Rejeter les Inscriptions :</strong> Examinez les nouvelles inscriptions et validez les utilisateurs légitimes.</li>
+    <li><strong>Gérer les Comptes :</strong> Modifiez les détails, définissez les privilèges admin, mettez des comptes en pause.</li>
+    <li><strong>Assigner des Feuilles :</strong> Accordez l'accès à des feuilles individuelles ou des groupes entiers.</li>
+    <li><strong>Supprimer des Utilisateurs :</strong> Retirez des utilisateurs du système et révoquez toutes leurs permissions.</li>
   </ul>
   
-  <h4>Spreadsheet Management</h4>
+  <h4>Gestion des Feuilles de Calcul</h4>
   <ul class="doc-list">
-    <li><strong>Add Spreadsheets:</strong> Add new Google Sheets to the system with custom descriptions</li>
-    <li><strong>Set Access Levels:</strong> Configure whether users get Viewer or Editor permissions</li>
-    <li><strong>Organize by Groups:</strong> Assign spreadsheets to numbered groups (1-20) for easier bulk assignment</li>
-    <li><strong>Manage Availability:</strong> Place admin holds to temporarily restrict access to specific sheets</li>
-    <li><strong>Delete Spreadsheets:</strong> Remove spreadsheets from the system and revoke all permissions</li>
-    <li><strong>Release Sheets:</strong> Manually release checked-out spreadsheets if users forget to logout</li>
+    <li><strong>Ajouter des Feuilles :</strong> Ajoutez de nouvelles Google Sheets au système avec des descriptions personnalisées.</li>
+    <li><strong>Définir les Niveaux d'Accès :</strong> Configurez si les utilisateurs obtiennent des droits de Lecteur ou d'Éditeur.</li>
+    <li><strong>Organiser par Groupes :</strong> Assignez des feuilles à des groupes numérotés (1-20) pour une assignation en masse plus facile.</li>
+    <li><strong>Gérer la Disponibilité :</strong> Placez des verrous admin pour restreindre temporairement l'accès à certaines feuilles.</li>
+    <li><strong>Libérer des Feuilles :</strong> Libérez manuellement des feuilles empruntées si des utilisateurs oublient de se déconnecter.</li>
   </ul>
   
-  <h4>System Monitoring</h4>
+  <h4>Surveillance du Système</h4>
   <ul class="doc-list">
-    <li><strong>Storage Dashboard:</strong> Monitor Property Service storage usage and capacity estimates</li>
-    <li><strong>Activity Log:</strong> Track all system events including logins, checkouts, and modifications</li>
-    <li><strong>Real-time Status:</strong> See which spreadsheets are currently checked out and by whom</li>
-    <li><strong>User Overview:</strong> View all registered users and their approval status</li>
+    <li><strong>Tableau de Bord Stockage :</strong> Surveillez l'utilisation du stockage Property Service.</li>
+    <li><strong>Journal d'Activité :</strong> Suivez tous les événements système (connexions, emprunts, modifications).</li>
+    <li><strong>État en Temps Réel :</strong> Voyez quelles feuilles sont actuellement empruntées et par qui.</li>
   </ul>
   
-  <h4>Emergency Controls</h4>
+  <h4>Contrôles d'Urgence</h4>
   <ul class="doc-list">
-    <li><strong>Clear All Sessions:</strong> Instantly log out all users and release all spreadsheets in case of emergency</li>
-    <li><strong>Data Backup:</strong> Export complete user and spreadsheet data as JSON files for backup or migration</li>
+    <li><strong>Effacer toutes les sessions :</strong> Déconnectez instantanément tous les utilisateurs et libérez toutes les feuilles en cas d'urgence.</li>
+    <li><strong>Sauvegarde de Données :</strong> Exportez les données utilisateurs et feuilles en fichiers JSON pour sauvegarde.</li>
   </ul>
 </div>
 
-<!-- Section 4: Security Features -->
 <div class="doc-section" id="doc-security">
-  <h3>🔒 Security Features</h3>
+  <h3>🔒 Fonctionnalités de Sécurité</h3>
   
   <div class="security-feature">
-    <h4>1. Password Security</h4>
+    <h4>1. Sécurité des Mots de Passe</h4>
     <ul class="doc-list">
-      <li>All passwords are encrypted using <strong>SHA-256 hashing</strong> before storage</li>
-      <li>Passwords are never stored in plain text</li>
-      <li>No one, including administrators, can view your password</li>
+      <li>Tous les mots de passe sont hachés via <strong>SHA-256</strong> avant stockage.</li>
+      <li>Jamais stockés en texte clair.</li>
+      <li>Personne, y compris les admins, ne peut voir votre mot de passe.</li>
     </ul>
   </div>
   
   <div class="security-feature">
-    <h4>2. Time-Limited Access</h4>
+    <h4>2. Accès Limité dans le Temps</h4>
     <ul class="doc-list">
-      <li><strong>Automatic Midnight Cleanup:</strong> All permissions expire at midnight every day</li>
-      <li>Eliminates the risk of forgotten or outdated share permissions</li>
-      <li>Forces regular re-authentication for active users</li>
-      <li>Prevents indefinite access from compromised accounts</li>
+      <li><strong>Nettoyage Automatique à Minuit :</strong> Toutes les permissions expirent chaque jour.</li>
+      <li>Élimine le risque de permissions oubliées.</li>
+      <li>Force une ré-authentification régulière.</li>
     </ul>
   </div>
   
   <div class="security-feature">
-    <h4>3. Session Management</h4>
+    <h4>3. Gestion de Session</h4>
     <ul class="doc-list">
-      <li>Each login creates a unique, temporary session token</li>
-      <li>Sessions are tracked and can be invalidated instantly</li>
-      <li>Automatic logout releases all checked-out spreadsheets</li>
-      <li>Admins can force-logout all users in emergencies</li>
+      <li>Chaque connexion crée un jeton de session unique et temporaire.</li>
+      <li>La déconnexion automatique libère toutes les feuilles empruntées.</li>
+      <li>Les admins peuvent forcer la déconnexion en cas d'urgence.</li>
     </ul>
   </div>
   
   <div class="security-feature">
-    <h4>4. Role-Based Access Control</h4>
+    <h4>4. Contrôle d'Accès Basé sur les Rôles (RBAC)</h4>
     <ul class="doc-list">
-      <li>Clear separation between regular users and administrators</li>
-      <li>Admin functions are completely locked to non-admin accounts</li>
-      <li>User type is verified server-side on every sensitive operation</li>
+      <li>Séparation claire entre utilisateurs standards et administrateurs.</li>
+      <li>Fonctions admin verrouillées pour les non-admins.</li>
+      <li>Vérification du type d'utilisateur côté serveur pour chaque opération sensible.</li>
     </ul>
   </div>
   
   <div class="security-feature">
-    <h4>5. Activity Logging</h4>
+    <h4>5. Journalisation d'Activité</h4>
     <ul class="doc-list">
-      <li>Complete audit trail of all system activities</li>
-      <li>Track who accessed which spreadsheet and when</li>
-      <li>Monitor login attempts, successful and failed</li>
-      <li>Review all administrative actions (user approvals, deletions, modifications)</li>
+      <li>Piste d'audit complète de toutes les activités.</li>
+      <li>Suivi de qui a accédé à quelle feuille et quand.</li>
+      <li>Surveillance des tentatives de connexion et actions administratives.</li>
     </ul>
   </div>
   
   <div class="security-feature">
-    <h4>6. Controlled Spreadsheet Access</h4>
+    <h4>6. Accès Contrôlé aux Feuilles</h4>
     <ul class="doc-list">
-      <li>Only assigned users can access specific spreadsheets</li>
-      <li>One editor at a time prevents simultaneous edit conflicts</li>
-      <li>Admin can place holds to temporarily block access</li>
-      <li>Permissions are granted only through the system (no external sharing)</li>
+      <li>Seuls les utilisateurs assignés peuvent accéder à des feuilles spécifiques.</li>
+      <li>Un seul éditeur à la fois pour éviter les conflits.</li>
+      <li>Les permissions ne sont accordées que via le système (pas de partage externe).</li>
     </ul>
   </div>
   
   <div class="security-feature">
-    <h4>7. Gmail-Only Registration</h4>
+    <h4>7. Inscription Gmail Uniquement</h4>
     <ul class="doc-list">
-      <li>Restricts registration to verified Gmail accounts only</li>
-      <li>Reduces spam and fake account creation</li>
-      <li>Leverages Google's account security infrastructure</li>
+      <li>Restreint l'inscription aux comptes Gmail vérifiés.</li>
+      <li>Réduit le spam et les faux comptes.</li>
     </ul>
   </div>
   
   <div class="security-feature">
-    <h4>8. Data Protection</h4>
+    <h4>8. Protection des Données</h4>
     <ul class="doc-list">
-      <li><strong>JSON Backup System:</strong> Full data export capability for disaster recovery</li>
-      <li>Backup includes all user accounts, spreadsheet assignments, and system configuration</li>
-      <li>Easy restoration in case of data corruption or accidental deletion</li>
-      <li>Secure admin-only access to backup functions</li>
+      <li><strong>Système de Sauvegarde JSON :</strong> Export complet pour récupération après sinistre.</li>
+      <li>Restauration facile en cas de corruption de données.</li>
     </ul>
   </div>
   
   <div class="security-feature">
-    <h4>9. Centralized Control</h4>
+    <h4>9. Contrôle Centralisé</h4>
     <ul class="doc-list">
-      <li>Single point of management for all spreadsheet permissions</li>
-      <li>Admins maintain complete oversight of all access</li>
-      <li>No "shadow sharing" outside the system</li>
-      <li>Instant revocation of all permissions when needed</li>
+      <li>Point unique de gestion pour toutes les permissions.</li>
+      <li>Les admins gardent une vue d'ensemble complète.</li>
+      <li>Révocation instantanée des accès si nécessaire.</li>
     </ul>
   </div>
   
   <div class="security-feature">
-    <h4>10. Property Service Security</h4>
+    <h4>10. Sécurité Google Native</h4>
     <ul class="doc-list">
-      <li>All data stored in Google Apps Script Property Service</li>
-      <li>Benefits from Google's enterprise-grade security infrastructure</li>
-      <li>Data never leaves Google's secure environment</li>
-      <li>No external databases or third-party services required</li>
+      <li>Données stockées dans le Property Service de Google Apps Script.</li>
+      <li>Bénéficie de l'infrastructure de sécurité de Google.</li>
+      <li>Les données ne quittent jamais l'environnement Google.</li>
     </ul>
   </div>
   
   <div class="security-summary">
-    <strong>Security Summary:</strong> This system transforms spreadsheet access from <strong>permanent and untracked</strong> to <strong>temporary and audited</strong>. Every access is logged, every permission expires automatically, and administrators maintain complete control.
+    <strong>Résumé Sécurité :</strong> Ce système transforme l'accès aux feuilles de calcul de <strong>permanent et non suivi</strong> à <strong>temporaire et audité</strong>. Chaque accès est journalisé, chaque permission expire automatiquement.
   </div>
 </div>
 
-<!-- Section 5: Key Benefits -->
 <div class="doc-section" id="doc-benefits">
-  <h3>⚡ Key Benefits</h3>
+  <h3>⚡ Avantages Clés</h3>
   
-  <h4>For Your Organization</h4>
+  <h4>Pour Votre Organisation</h4>
   <ul class="doc-list benefits">
-    <li><strong>Prevent Data Conflicts:</strong> Only one editor per spreadsheet eliminates version control issues</li>
-    <li><strong>Maintain Accountability:</strong> Always know who has accessed what and when</li>
-    <li><strong>Reduce Security Risk:</strong> Automatic permission expiration prevents forgotten access</li>
-    <li><strong>Simplify Management:</strong> Single dashboard to control all spreadsheet access</li>
-    <li><strong>Ensure Compliance:</strong> Complete audit trail for regulatory requirements</li>
+    <li><strong>Prévention des Conflits :</strong> Un seul éditeur par feuille élimine les problèmes de version.</li>
+    <li><strong>Responsabilisation :</strong> Sachez toujours qui a accédé à quoi.</li>
+    <li><strong>Réduction des Risques :</strong> L'expiration automatique prévient les accès oubliés.</li>
+    <li><strong>Gestion Simplifiée :</strong> Tableau de bord unique pour tout contrôler.</li>
   </ul>
   
-  <h4>For Users</h4>
+  <h4>Pour les Utilisateurs</h4>
   <ul class="doc-list benefits">
-    <li><strong>Simple Access:</strong> Request spreadsheets with one click</li>
-    <li><strong>No Permission Confusion:</strong> Clear status of what you can access</li>
-    <li><strong>Automatic Cleanup:</strong> No need to remember to revoke your own access</li>
-    <li><strong>Fair Sharing:</strong> System ensures spreadsheets are available when you need them</li>
-  </ul>
-  
-  <h4>For Administrators</h4>
-  <ul class="doc-list benefits">
-    <li><strong>Complete Visibility:</strong> Real-time dashboard of all system activity</li>
-    <li><strong>Bulk Management:</strong> Assign users to groups of spreadsheets at once</li>
-    <li><strong>Emergency Controls:</strong> Instantly lock down the system if needed</li>
-    <li><strong>Easy Onboarding:</strong> Quick registration approval process</li>
-    <li><strong>Data Safety:</strong> Full backup capability for disaster recovery</li>
+    <li><strong>Accès Simple :</strong> Demandez des feuilles en un clic.</li>
+    <li><strong>Clarté :</strong> Statut clair de ce à quoi vous pouvez accéder.</li>
+    <li><strong>Nettoyage Auto :</strong> Pas besoin de penser à révoquer vos propres accès.</li>
   </ul>
 </div>
 
-<!-- Section 6: Common Questions -->
 <div class="doc-section" id="doc-faq">
-  <h3>💡 Common Questions</h3>
+  <h3>💡 Questions Fréquentes</h3>
   
   <div class="faq-item">
-    <h4>Q: What happens if I forget to logout?</h4>
+    <h4>Q: Que se passe-t-il si j'oublie de me déconnecter ?</h4>
     <p>
-      <strong>A:</strong> All permissions automatically expire at midnight, so the spreadsheet will be released then. However, please logout manually to free it up sooner for other users.
+      <strong>R:</strong> Toutes les permissions expirent automatiquement à minuit. Cependant, merci de vous déconnecter manuellement pour libérer la feuille plus tôt pour les autres.
     </p>
   </div>
   
   <div class="faq-item">
-    <h4>Q: Can I access spreadsheets outside this system?</h4>
+    <h4>Q: Puis-je accéder aux feuilles en dehors de ce système ?</h4>
     <p>
-      <strong>A:</strong> No. Access is only granted through the Access Manager system to maintain security and tracking.
+      <strong>R:</strong> Non. L'accès est uniquement accordé via le Gestionnaire d'Accès pour maintenir la sécurité et le suivi.
     </p>
   </div>
   
   <div class="faq-item">
-    <h4>Q: What if two people need to edit the same spreadsheet?</h4>
+    <h4>Q: Et si deux personnes doivent éditer la même feuille ?</h4>
     <p>
-      <strong>A:</strong> Users must coordinate and take turns. The first person checks out the sheet, completes their work, logs out, then the second person can check it out.
+      <strong>R:</strong> Les utilisateurs doivent se coordonner. La première personne emprunte la feuille, termine son travail, se déconnecte, puis la seconde personne peut l'emprunter.
     </p>
   </div>
   
   <div class="faq-item">
-    <h4>Q: Can I see who else has access to a spreadsheet?</h4>
+    <h4>Q: Puis-je voir qui d'autre a accès à une feuille ?</h4>
     <p>
-      <strong>A:</strong> Users can see which spreadsheets are currently checked out in the "Currently In Use" list. Admins can see full assignment details.
-    </p>
-  </div>
-  
-  <div class="faq-item">
-    <h4>Q: What happens to my data if the system fails?</h4>
-    <p>
-      <strong>A:</strong> Admins can restore from JSON backups. The actual spreadsheet files are never affected - only the access control is managed by this system.
+      <strong>R:</strong> Les utilisateurs peuvent voir quelles feuilles sont actuellement empruntées dans la liste "Actuellement Utilisé". Les admins voient tous les détails.
     </p>
   </div>
 </div>
 
-<!-- Section 7: Best Practices -->
 <div class="doc-section" id="doc-best-practices">
-  <h3>🚀 Best Practices</h3>
+  <h3>🚀 Meilleures Pratiques</h3>
   
-  <h4>For Users</h4>
+  <h4>Pour les Utilisateurs</h4>
   <ol class="doc-list">
-    <li>Always logout when finished to free up spreadsheets for others</li>
-    <li>Keep the Access Manager tab open while working</li>
-    <li>Only check out spreadsheets you're actively using</li>
-    <li>Contact admin if you encounter any access issues</li>
+    <li>Déconnectez-vous toujours une fois terminé.</li>
+    <li>Gardez l'onglet du Gestionnaire ouvert pendant le travail.</li>
+    <li>N'empruntez que les feuilles que vous utilisez activement.</li>
   </ol>
   
-  <h4>For Administrators</h4>
+  <h4>Pour les Administrateurs</h4>
   <ol class="doc-list">
-    <li>Review and approve new user registrations promptly</li>
-    <li>Use groups to organize related spreadsheets</li>
-    <li>Run regular backups (weekly recommended)</li>
-    <li>Monitor the activity log for unusual patterns</li>
-    <li>Keep admin credentials secure and private</li>
-    <li>Use emergency clear sessions only when truly necessary</li>
+    <li>Examinez rapidement les nouvelles inscriptions.</li>
+    <li>Utilisez les groupes pour organiser les feuilles liées.</li>
+    <li>Faites des sauvegardes régulières (hebdomadaires recommandées).</li>
+    <li>Surveillez le journal d'activité pour détecter les comportements inhabituels.</li>
   </ol>
 </div>
 
-<!-- Section 8: Technical Specifications -->
 <div class="doc-section" id="doc-technical">
-  <h3>📊 Technical Specifications</h3>
+  <h3>📊 Spécifications Techniques</h3>
   
   <ul class="doc-list technical">
-    <li><strong>Platform:</strong> Google Apps Script (runs entirely within Google's infrastructure)</li>
-    <li><strong>Storage:</strong> Google Property Service (512 KB capacity)</li>
-    <li><strong>Capacity:</strong> Supports approximately 75-100 users and 100-150 spreadsheets</li>
-    <li><strong>Authentication:</strong> SHA-256 password hashing</li>
-    <li><strong>Access Control:</strong> Session token-based authentication</li>
-    <li><strong>Automation:</strong> Daily midnight cleanup via time-driven trigger</li>
-    <li><strong>Backup Format:</strong> JSON (human-readable, universally compatible)</li>
+    <li><strong>Plateforme :</strong> Google Apps Script (s'exécute entièrement dans l'infrastructure Google)</li>
+    <li><strong>Stockage :</strong> Google Property Service (capacité de 512 KB)</li>
+    <li><strong>Capacité :</strong> Supporte environ 75-100 utilisateurs et 100-150 feuilles de calcul</li>
+    <li><strong>Authentification :</strong> Hachage de mot de passe SHA-256</li>
+    <li><strong>Contrôle d'Accès :</strong> Authentification par jeton de session</li>
+    <li><strong>Automatisation :</strong> Nettoyage quotidien à minuit via déclencheur temporel</li>
+    <li><strong>Format de Sauvegarde :</strong> JSON</li>
   </ul>
 </div>
